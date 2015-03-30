@@ -1,0 +1,5 @@
+= Haml::Engine.new(File.read "#{Dir.pwd}/pinidea/src/partial/app.haml").render do
+  - capture_haml do
+    .page-landing{:data => {:nav => :explore}}
+      %i.fa.fa-check
+      %span 随机议题投票

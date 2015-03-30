@@ -1,0 +1,10 @@
+= Haml::Engine.new(File.read "#{Dir.pwd}/pinidea/src/partial/auth.haml").render do
+  - capture_haml do
+    .page-auth
+      .header
+        .logo pinidea
+        .desc 征集朋友意见，汇集群众智慧
+      .form
+        %a.login.btn.btn-pill.btn-flat-success.btn-block{:href => 'home-1-index.html'}
+          %i.fa.fa-weibo
+          %span 从新浪微博登录
