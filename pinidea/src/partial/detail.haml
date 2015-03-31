@@ -1,0 +1,32 @@
+!!!
+%html{:lang => :zh}
+  %head
+    %title pinidea
+    %meta{:'http-equiv' => 'Content-Type', :content => 'text/html; charset=utf-8'}
+    %meta{:name => 'viewport', :content => 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'}
+
+    %link{:rel => 'stylesheet', :href => '../css/ui.css'}
+
+  %body
+    .layout-header
+      .container
+        .row
+          .header-inner.col-pad-12
+            %a.back
+              %i.fa.fa-chevron-left
+            .page pinidea
+
+    .layout-content
+      .container
+        .row
+          .content-inner.col-pad-12
+            = yield
+
+    :ruby
+      lib_path = "../../../lib"
+
+    %script{:type => 'text/javascript', :src => "#{lib_path}/jquery-2.1.1.min.js"}
+
+    %script{:type => 'text/javascript', :src => "../js/turbolinks.js"}
+
+    %script{:type => 'text/javascript', :src => "../js/ui.js"}

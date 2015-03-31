@@ -20,3 +20,8 @@ jQuery(document).delegate '.page-landing .filter a.item', 'click', ->
   $item = jQuery(this)
   $item.closest('.filter').find('a.item').removeClass('active')
   $item.addClass('active')
+
+# back 按钮链接
+jQuery(document).on 'ready page:load', ->
+  back_url = jQuery('[data-back]').data('back')
+  jQuery(".layout-header .back").attr 'href', back_url

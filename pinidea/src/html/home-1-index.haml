@@ -1,17 +1,18 @@
 = Haml::Engine.new(File.read "#{Dir.pwd}/pinidea/src/partial/app.haml").render do
   - capture_haml do
-    .page-landing{:data => {:nav => :home, :title => '话题大厅'}}
+    .page-landing{:data => {:nav => :home, :title => '议题大厅'}}
       .filter
         %a.item.newest.active{:href => 'javascript:;'}
           %span 最新
         %a.item.hotest{:href => 'javascript:;'}
           %span 最热
 
+      .list-bg
       .topics.list
-        .topic
+        %a.topic{:href => 'home-2-topic.html'}
           .creator
             .avatar
-              %img{:src => 'http://img.teamkn.com/i/y4tvQ9SD.png'}
+              %img{:src => 'http://img.teamkn.com/i/y4tvQ9SD.png@80w'}
           .data
             .title 
               %span.creator-name 石酷：
@@ -22,10 +23,10 @@
               .option PC网页，安卓，苹果都支持！
           .joiner-count 20
 
-        .topic
+        %a.topic{:href => 'home-2-topic.html'}
           .creator
             .avatar
-              %img{:src => 'http://img.teamkn.com/i/mQTXjy9m.png'}
+              %img{:src => 'http://img.teamkn.com/i/mQTXjy9m.png@80w'}
           .data
             .title 
               %span.creator-name 月如卡卡：
@@ -36,10 +37,10 @@
               .option 咸的，我是南方人。
           .joiner-count 18
 
-        .topic
+        %a.topic{:href => 'home-2-topic.html'}
           .creator
             .avatar
-              %img{:src => 'http://img.teamkn.com/i/RTB15zIX.png'}
+              %img{:src => 'http://img.teamkn.com/i/RTB15zIX.png@80w'}
           .data
             .title 
               %span.creator-name 洋气书生：

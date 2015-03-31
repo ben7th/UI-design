@@ -22,6 +22,12 @@
     return $item.addClass('active');
   });
 
+  jQuery(document).on('ready page:load', function() {
+    var back_url;
+    back_url = jQuery('[data-back]').data('back');
+    return jQuery(".layout-header .back").attr('href', back_url);
+  });
+
 }).call(this);
 
 //# sourceMappingURL=../maps/ui.js.map

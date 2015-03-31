@@ -1,0 +1,3 @@
+= Haml::Engine.new(File.read "#{Dir.pwd}/pinidea/src/partial/detail.haml").render do
+  - capture_haml do
+    .page-topic{:data => {:back => 'home-1-index.html', :title => '议题详情'}}

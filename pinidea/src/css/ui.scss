@@ -40,7 +40,14 @@ $filter-bg-color: $header-bg-color;
 $filter-active-border-color: $footer-hover-icon-color;
 $list-border-color: #ddd;
 $list-count-bg-color: lighten($footer-hover-icon-color, 25%);
-$loading-bg-color: $filter-bg-color;
+$list-hover-bg-color: rgba($list-count-bg-color, 0.1);
+$loading-bg-color: rgba(white, 0.5);
+
+// 参考过的设计稿
+// timeline
+// https://dribbble.com/shots/1956586-Filter-Menu/attachments/339546
+// 页签和动画效果
+// https://dribbble.com/shots/1368542-Gif-Fiche?list=buckets&offset=2
 
 body {
   background-color: $body-bg-color;
@@ -64,9 +71,23 @@ body.auth {
   .page {text-align: center;}
   a.search {
     position: absolute;
-    top:0;right:0;bottom:0;width:50px;
+    top:0;right:0;bottom:2px;width:50px;
     text-align: center;
     color: #444;
+    text-decoration: none;
+    &:hover {
+      background-color: rgba(white, 0.5);
+    }
+  }
+  a.back {
+    position: absolute;
+    top:0;left:0;bottom:2px;width:50px;
+    text-align: center;
+    color: #444;
+    text-decoration: none;
+    &:hover {
+      background-color: rgba(white, 0.5);
+    }
   }
 }
 
@@ -106,6 +127,7 @@ body.auth {
       margin-left: - $iw / 2;
       border-radius: $iw;
       font-size: 36px;
+      box-shadow: 0 0 3px rgba(black, 0.5);
     }
   }
 }
@@ -176,25 +198,50 @@ body.auth {
       }
     }
   }
+
+  .list-bg {
+    content:"";
+    position: fixed;
+    top:0;left:34px;width:2px;bottom:0;
+    top:100px;bottom:50px;
+    background-color: $list-border-color;
+    // background-color: red;
+  }
   .topics.list {
     position: fixed;
     top: 100px;left:0px;right:0;bottom:50px;
     overflow-y: scroll;
     padding: $gpd * 1.5 $gpd;
-    &:before {
-      content:"";
-      position: absolute;
-      top:0;left:34px;width:2px;bottom:0;
-      background-color: $list-border-color;
-    }
 
-    .topic {
+    a.topic {
       margin-bottom: $gpd * 2;
       position: relative;
       z-index:1;
+      display: block;
+
+      color: $text-color-default;
+      &:hover {
+        text-decoration: none;
+      }
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: -15px; left: -15px;
+        bottom: -15px; right: -15px;
+        // background-color: rgba(red, 0.2);
+        background-color: transparent;
+      }
+
+      &:hover:before {
+        background-color: $list-hover-bg-color;
+      }
+
       .creator {
         float: left;
         $aw: 40px;
+        position: relative;
+        z-index: 1;
         .avatar {
           border-radius:$aw;
           width:$aw;height:$aw;
@@ -202,6 +249,8 @@ body.auth {
         }
       }
       .data {
+        position: relative;
+        z-index: 1;
         margin-left: 55px;
         .title {
           font-size: 16px;
@@ -229,7 +278,7 @@ body.auth {
       }
       .joiner-count {
         position: absolute;
-        top: 50px; left: 0;
+        top: 55px; left: 0;
         height: 20px; line-height: 20px;
         width: 40px;
         background-color: $list-count-bg-color;
@@ -245,6 +294,21 @@ body.auth {
       font-size: 16px;
       color: #999;
       text-align: center;
+      // margin-left: 55px;
+      // margin-right: 55px;
+      margin:0 40px;
+      height:20px;line-height:20px;
+      position: relative;
+      border-radius: $border-radius-default;
+      // &:before {
+      //   position: absolute;
+      //   content:"";
+      //   width:10px;height:10px;
+      //   background-color: #666;
+      //   border-radius:100px;
+      //   left:-40px;
+      //   top: 20px;
+      // }
     }
   }
 }
