@@ -36,7 +36,7 @@ $footer-hover-bg-color: #202427;
 $footer-icon-color: #E9E9E9;
 $footer-hover-icon-color: #00CCFF;
 $footer-new-botton-color: #4C4849;
-$filter-bg-color: $header-bg-color;
+$filter-bg-color: darken($header-bg-color, 6%);
 $filter-active-border-color: $footer-hover-icon-color;
 $list-border-color: #ddd;
 $list-count-bg-color: lighten($footer-hover-icon-color, 25%);
@@ -57,6 +57,10 @@ $top-nav-icon-size: 20px;
 
 body {
   background-color: $body-bg-color;
+  overflow-x:hidden;
+  a {
+    outline: 0 none !important;
+  }
 }
 body.auth {
   background-color: #222737;
@@ -191,42 +195,65 @@ body.auth {
 }
 
 .page-landing {
-  .filter {
-    $h:50px;
+  .topbar {
+    $h:70px;
     height: $h; line-height: $h;
-    // background-color: $filter-bg-color;
-    background-color: darken($filter-bg-color, 2%);
     margin-left: -$gpd;
-    margin-right: -$gpd + 50px;
+    margin-right: -$gpd;
     margin-bottom: 0;
-    a.item {
-      height: $h; line-height: $h;
-      float: left;
-      width: percentage(1/2);
-      text-align: center;
-      box-sizing: border-box;
-      border-bottom: solid 2px transparent;
-      color: #999;
-      font-size: 16px;
-      &:hover, &:focus, &:active, &.active{
-        text-decoration: none;
-        border-bottom: solid 2px $filter-active-border-color;
-        color: #666;
+    position: relative;
+
+    .filter {
+      height:40px;line-height:40px;
+      position: absolute;
+      top: 15px;
+      left: $gpd;
+      right: 60px + 10px;
+
+      .fbox {
+        box-shadow: 1px 1px 1px rgba(black, 0.3);
         background-color: $filter-bg-color;
+        height:40px;line-height:40px;
+        border-radius:100px;
+        padding:4px;
+        box-sizing:border-box;
+      }
+      a.item {
+        height: 32px; line-height: 32px;
+        float: left;
+        width: percentage(1/2);
+        text-align: center;
+        box-sizing: border-box;
+        border-bottom: solid 2px transparent;
+        color: #999;
+        font-size: 16px;
+        border-radius: 100px;
+
+        &:hover, &:focus, &:active, &.active{
+          text-decoration: none;
+          color: #666;
+          background-color: rgba(white, 0.5);
+        }
       }
     }
-  }
-  a.search {
-    position: absolute;
-    top:0;right:0;
-    width:50px;height:50px;line-height:50px;
-    color: #444;
-    text-decoration: none;
-    text-align: center;
-    font-size: 20px;
-    background-color: darken($filter-bg-color, 5%);
-    &:hover {
-      background-color: $filter-bg-color;
+
+    $tlw: 50px;
+    .topic-lucky {
+      box-shadow: 1px 1px 1px rgba(black, 0.3);
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      height:$tlw;line-height:$tlw;width:$tlw;
+      background-color: $footer-hover-icon-color;
+      border-radius: 100px;
+      text-decoration: none;
+      text-align: center;
+      i {
+        height:$tlw;line-height:$tlw;width:$tlw;
+        font-size: 24px;
+        color: darken($list-count-bg-color, 50%);
+        color: white;
+      }
     }
   }
 
@@ -234,15 +261,15 @@ body.auth {
     content:"";
     position: fixed;
     top:0;left:34px;width:2px;bottom:0;
-    top:100px;bottom:50px;
+    top:0px;bottom:50px;
     background-color: $list-border-color;
-    // background-color: red;
   }
+
   .topics.list {
     position: fixed;
-    top: 50px;left:0px;right:0;bottom:50px;
+    top: 70px;left:0px;right:0;bottom:50px;
     overflow-y: scroll;
-    padding: $gpd * 1.5 $gpd;
+    padding: $gpd $gpd $gpd * 2;
 
     a.topic {
       margin-bottom: $gpd * 2;
@@ -443,12 +470,15 @@ body.auth {
   }
 
   .topic-new-option {
-    margin-top: 4px;
-    margin-left: -$gpd;
-    margin-right: -$gpd;
-    margin-bottom: -$gpd;
+    margin-top: $gpd;
+    // margin-left: -$gpd;
+    // margin-right: -$gpd;
+    margin-bottom: $gpd;
     a.new {
-      height:70px;line-height:70px;
+      height:50px;line-height:50px;
+      background-color: #FFEEBE;
+      color: #A57900;
+      border-radius:100px;
     }
   }
 }

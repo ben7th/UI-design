@@ -1,15 +1,19 @@
 = Haml::Engine.new(File.read "#{Dir.pwd}/pinidea/src/partial/app.haml").render do
   - capture_haml do
     .page-landing{:data => {:nav => :home, :title => '议题大厅'}}
-      .filter
-        %a.item.newest.active{:href => 'javascript:;'}
-          %span 最新
-        %a.item.hotest{:href => 'javascript:;'}
-          %span 最热
-      %a.search
-        %i.fa.fa-search
 
       .list-bg
+
+      .topbar
+        .filter
+          .fbox
+            %a.item.newest.active{:href => 'javascript:;'}
+              %span 最新
+            %a.item.hotest{:href => 'javascript:;'}
+              %span 最热
+        %a.topic-lucky
+          %i.fa.fa-smile-o
+
       .topics.list
         %a.topic{:href => 'home-2-topic.html'}
           .data
