@@ -28,6 +28,10 @@
     return jQuery(".layout-header .back").attr('href', back_url);
   });
 
+  jQuery(document).delegate('.topic-options .option', 'click', function() {
+    return jQuery(this).toggleClass('active');
+  });
+
 }).call(this);
 
 //# sourceMappingURL=../maps/ui.js.map

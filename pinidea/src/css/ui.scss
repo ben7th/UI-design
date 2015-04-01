@@ -42,6 +42,12 @@ $list-border-color: #ddd;
 $list-count-bg-color: lighten($footer-hover-icon-color, 25%);
 $list-hover-bg-color: rgba($list-count-bg-color, 0.1);
 $loading-bg-color: rgba(white, 0.5);
+$quote-bg-color: $loading-bg-color;
+// $quote-box-shadow: 1px 1px 3px rgba(black, 0.1);
+$quote-box-shadow: none;
+$infocard-bg-color: #fff;
+$infocard-box-shadow: none; //1px 1px 2px rgba(black, 0.2);
+$top-nav-icon-size: 20px;
 
 // 参考过的设计稿
 // timeline
@@ -67,7 +73,7 @@ body.auth {
   margin-bottom: $gpd;
   border-bottom:solid 2px $header-border-color;
   box-sizing:border-box;
-  font-size: 20px;
+  font-size: $top-nav-icon-size;
   .page {text-align: center;}
   a.search {
     position: absolute;
@@ -92,7 +98,7 @@ body.auth {
 }
 
 .layout-footer {
-  $h: 50px;
+  $h: 55px;
   position: fixed;
   left:0;right:0;bottom:0;
   height:$h;
@@ -106,6 +112,19 @@ body.auth {
     text-align: center;
     font-size: 24px;
     display: block;
+    text-decoration: none;
+    &:not(.new) i {
+      font-size: 24px;
+      display: block;
+      line-height: 30px;
+      margin-top: 5px;
+    }
+    &:not(.new) .text {
+      display: block;
+      font-size: 12px;
+      line-height: 20px;
+    }
+
     &:hover, &:focus, &:active, &.active{
       background-color: $footer-hover-bg-color !important;
       color: $footer-hover-icon-color;
@@ -177,9 +196,8 @@ body.auth {
     height: $h; line-height: $h;
     // background-color: $filter-bg-color;
     background-color: darken($filter-bg-color, 2%);
-    margin-top: -$gpd;
     margin-left: -$gpd;
-    margin-right: -$gpd;
+    margin-right: -$gpd + 50px;
     margin-bottom: 0;
     a.item {
       height: $h; line-height: $h;
@@ -198,6 +216,19 @@ body.auth {
       }
     }
   }
+  a.search {
+    position: absolute;
+    top:0;right:0;
+    width:50px;height:50px;line-height:50px;
+    color: #444;
+    text-decoration: none;
+    text-align: center;
+    font-size: 20px;
+    background-color: darken($filter-bg-color, 5%);
+    &:hover {
+      background-color: $filter-bg-color;
+    }
+  }
 
   .list-bg {
     content:"";
@@ -209,7 +240,7 @@ body.auth {
   }
   .topics.list {
     position: fixed;
-    top: 100px;left:0px;right:0;bottom:50px;
+    top: 50px;left:0px;right:0;bottom:50px;
     overflow-y: scroll;
     padding: $gpd * 1.5 $gpd;
 
@@ -237,17 +268,6 @@ body.auth {
         background-color: $list-hover-bg-color;
       }
 
-      .creator {
-        float: left;
-        $aw: 40px;
-        position: relative;
-        z-index: 1;
-        .avatar {
-          border-radius:$aw;
-          width:$aw;height:$aw;
-          img {width:$aw;height:$aw;border-radius:$aw;}
-        }
-      }
       .data {
         position: relative;
         z-index: 1;
@@ -256,7 +276,6 @@ body.auth {
           font-size: 16px;
           line-height: 22px;
           margin-bottom: 10px;
-          margin-top: -2px;
         }
         .options .option {
           font-size: 14px;
@@ -277,13 +296,15 @@ body.auth {
         }
       }
       .joiner-count {
+        font-size: 14px;
         position: absolute;
-        top: 55px; left: 0;
-        height: 20px; line-height: 20px;
+        top: 0px; left: 0;
+        height: 22px; line-height: 22px;
         width: 40px;
         background-color: $list-count-bg-color;
         text-align: center;
-        border-radius: 100px;
+        // border-radius: 100px;
+        border-radius: $border-radius-default;
         color: darken($list-count-bg-color, 50%);
       }
     }
@@ -309,6 +330,125 @@ body.auth {
       //   left:-40px;
       //   top: 20px;
       // }
+    }
+  }
+}
+
+.page-topic {
+  $biw: 40px;
+
+  .topic-header {
+    background-color: $quote-bg-color;
+    margin-left: -$gpd;
+    margin-right: -$gpd;
+    min-height: $biw + $gpd * 2;
+    position: relative;
+
+    a.back {
+      position: absolute;
+      width:$biw; height:$biw; line-height:$biw;
+      background-color: rgba(black, 0.05);
+      border-radius:100px;
+      font-size: $top-nav-icon-size;
+      color: #666;
+      text-decoration: none;
+      text-align: center;
+      top: $gpd;
+      left: $gpd;
+      i {
+        position: relative;
+        left: -1px;
+      }
+    }
+
+    h2.title {
+      margin:0;padding:0;
+      margin-left: $biw + $gpd * 2;
+      font-size:20px;
+      line-height: 30px;
+      padding-top: $gpd + ($biw - 30px) / 2 - 1px;
+      padding-bottom: $gpd + ($biw - 30px) / 2 + 1px;
+    }
+
+    .infocard.product {
+      $iw: 64px;
+      $h: 20px * 3 + 5px;
+
+      background-color: $infocard-bg-color;
+      margin: $gpd / 2;
+      margin-top: 0;
+      height: $h;
+      position: relative;
+      padding: 10px;
+      box-shadow: $infocard-box-shadow;
+
+      .product-logo {
+        box-sizing: border-box;
+        $bd:0px;
+        $w:$h;
+        width:$w;height:$w;
+        img {width:100%;height:100%;}
+        border:solid $bd white;
+        position: absolute;
+        box-shadow: $infocard-box-shadow;
+        background-color: #ddd;
+        top:10px;left:10px;
+      }
+      .data {
+        margin-left: $iw + 10px + 5px;
+        font-size: 14px;
+        .product-name {
+          height:20px;line-height:20px;
+          overflow:hidden;
+          margin-bottom: 5px;
+        }
+        .product-desc {
+          height: 40px; line-height: 20px;
+          overflow-y: hidden;
+          color: #888;
+        }
+      }
+    }
+  }
+
+  .topic-options {
+    .option {
+      background-color: #FFF;
+      margin-top: 4px;
+      margin-left: -$gpd;
+      margin-right: -$gpd;
+      padding: $gpd;
+      padding-right: $gpd + 40px + $gpd;
+      position: relative;
+      .text {
+        height:40px;line-height:20px;
+        overflow:hidden;
+        font-size: 16px;
+      }
+      .icon {
+        position: absolute;
+        width:40px;height:40px; line-height:40px;
+        top: $gpd;
+        right: $gpd;
+        font-size: 32px;
+        text-align: center;
+        opacity: 0.6;
+      }
+
+      &.active {
+        background-color: $footer-hover-icon-color;
+        color:white;
+      }
+    }
+  }
+
+  .topic-new-option {
+    margin-top: 4px;
+    margin-left: -$gpd;
+    margin-right: -$gpd;
+    margin-bottom: -$gpd;
+    a.new {
+      height:70px;line-height:70px;
     }
   }
 }

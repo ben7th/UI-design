@@ -8,16 +8,8 @@
     %link{:rel => 'stylesheet', :href => '../css/ui.css'}
 
   %body
-    .layout-header
-      .container
-        .row
-          .header-inner.col-pad-12
-            %a.back
-              %i.fa.fa-chevron-left
-            .page pinidea
-
     .layout-content
-      .container
+      .container-full
         .row
           .content-inner.col-pad-12
             = yield
