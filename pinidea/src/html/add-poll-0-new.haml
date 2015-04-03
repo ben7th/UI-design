@@ -24,7 +24,7 @@
             %label 请输入议题描述
             %textarea.form-control{:placeholder => '有什么事情想知道大家的看法呢？', :rows => 5}
           .submits
-            %a.next
+            %a.next{:href => 'javascript:;'}
               %span 下一步
               %i.fa.fa-arrow-right
 
@@ -34,10 +34,10 @@
             %input.form-control{:placeholder => '选项 1'}
             %input.form-control{:placeholder => '选项 2'}
           .submits
-            %a.prev
+            %a.prev{:href => 'javascript:;'}
               %i.fa.fa-arrow-left
               %span 上一步
-            %a.next
+            %a.next{:href => 'javascript:;'}
               %span 下一步
               %i.fa.fa-arrow-right
 
@@ -46,7 +46,7 @@
             %label 请输入网址
             %input.form-control{:placeholder => '网址'}
           .submits
-            %a.prev
+            %a.prev{:href => 'javascript:;'}
               %i.fa.fa-arrow-left
               %span 上一步
             %a.done{:href => 'javascript:;'}
