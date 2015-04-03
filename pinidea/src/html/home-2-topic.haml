@@ -1,7 +1,6 @@
 = Haml::Engine.new(File.read "#{Dir.pwd}/pinidea/src/partial/detail.haml").render do
   - capture_haml do
     .page-topic{:data => {:nav => :explore, :title => '议题详情'}}
-
       .topic-header
         %a.back{:href => 'home-1-index.html'}
           %i.fa.fa-chevron-left
@@ -12,25 +11,32 @@
           .data
             .product-name 扇贝单词
             .product-desc 这不是一款帮你“背”单词的软件，而是帮你“记住”单词的软件。只要能够完成一天的任务，你就能感受到实际的效果！
-        .clearfix &nbsp;
 
       .topic-options
         .option
           .text 可以从自己已背过的单词库随机出题抽查，检验记忆
-          .icon
+          .icon.i0
             %i.fa.fa-thumbs-up
+          .icon.i1
+            %i.fa.fa-check
         .option
           .text 利用测试单词量功能，迅速了解自己的单词量水平！
-          .icon
+          .icon.i0
             %i.fa.fa-thumbs-up
+          .icon.i1
+            %i.fa.fa-check
         .option
           .text PC网页，安卓，苹果都支持！
-          .icon
+          .icon.i0
             %i.fa.fa-thumbs-up
+          .icon.i1
+            %i.fa.fa-check
         .option
           .text 每天只要按时按量背完，就可以打卡刷成就~
-          .icon
+          .icon.i0
             %i.fa.fa-thumbs-up
+          .icon.i1
+            %i.fa.fa-check
 
       .topic-new-option
         %a.new.btn.btn-flat-success.btn-block{:href => 'javascript:;'}
