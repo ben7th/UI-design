@@ -40,21 +40,53 @@
               <div class='form'>
                 <div class='part' data-step='1'>
                   <div class='fields'>
-                    <label>请输入议题描述</label>
-                    <textarea class='form-control' placeholder='有什么事情想知道大家的看法呢？' rows='5'></textarea>
+                    <label>请输入要分享的网址</label>
+                    <textarea class='form-control url' placeholder='请粘贴要分享的网址' rows='2'></textarea>
                   </div>
                   <div class='submits'>
-                    <a class='next' href='javascript:;'>
-                      <span>下一步</span>
-                      <i class='fa fa-arrow-right'></i>
+                    <a class='loadurl disabled' href='javascript:;'>
+                      <i class='fa fa-arrow-circle-o-down'></i>
+                      <span>读取网址</span>
                     </a>
+                    <div class='loading' style='display:none;'>
+                      <div class='loadingtext'>
+                        <span>正在读取</span>
+                        <i class='fa fa-circle-o-notch fa-spin'></i>
+                      </div>
+                      <div class='loadingbar'>
+                        <div class='p' style='width:10%;'></div>
+                      </div>
+                    </div>
+                    <div class='loaded-success' style='display:none;'>
+                      <span>读取完毕</span>
+                      <i class='fa fa-check'></i>
+                    </div>
+                    <div class='loaded-failure' style='display:none;'>
+                      <span>读取失败</span>
+                    </div>
+                    <a class='next skip' href='javascript:;'>
+                      <span>跳过</span>
+                      <i class='fa fa-forward'></i>
+                    </a>
+                    <a class='next urldone' href='javascript:;' style='display:none;'>
+                      <span>下一步</span>
+                      <i class='fa fa-chevron-right'></i>
+                    </a>
+                  </div>
+                  <div class='infocard product' style='display:none;'>
+                    <div class='product-logo'>
+                      <img src='http://img.teamkn.com/i/WDB7GDLK.png'>
+                    </div>
+                    <div class='data'>
+                      <div class='product-name'>【袋装】台湾泡面满汉大餐方便面麻辣葱烧珍味牛肉面满汉全席整箱</div>
+                      <div class='product-price'>￥7.50</div>
+                    </div>
                   </div>
                 </div>
                 <div class='part' data-step='2' style='display:none;'>
                   <div class='fields'>
-                    <label>请输入预置选项（至少两个）</label>
-                    <input class='form-control' placeholder='选项 1'>
-                    <input class='form-control' placeholder='选项 2'>
+                    <label>请输入议题描述</label>
+                    <textarea class='form-control' placeholder='有什么事情想知道大家的看法呢？' rows='5'></textarea>
                   </div>
                   <div class='submits'>
                     <a class='prev' href='javascript:;'>
@@ -69,15 +101,35 @@
                 </div>
                 <div class='part' data-step='3' style='display:none;'>
                   <div class='fields'>
-                    <label>请输入网址</label>
-                    <input class='form-control' placeholder='网址'>
+                    <label>请输入预置选项（至少两个）</label>
+                    <div class='item-inputs'>
+                      <div class='ipt'>
+                        <input class='form-control' placeholder='选项 1'>
+                        <a class='delete disabled' href='javascript:;'>
+                          <i class='fa fa-times'></i>
+                        </a>
+                      </div>
+                      <div class='ipt'>
+                        <input class='form-control' placeholder='选项 2'>
+                        <a class='delete disabled' href='javascript:;'>
+                          <i class='fa fa-times'></i>
+                        </a>
+                      </div>
+                    </div>
                   </div>
                   <div class='submits'>
                     <a class='prev' href='javascript:;'>
                       <i class='fa fa-arrow-left'></i>
                       <span>上一步</span>
                     </a>
-                    <a class='done' href='javascript:;'>
+                    <a class='additem' href='javascript:;'>
+                      <i class='fa fa-plus'></i>
+                    </a>
+                    <div class='additem-text'>
+                      <i class='fa fa-arrow-up'></i>
+                      <span>按这里增加选项</span>
+                    </div>
+                    <a class='done' href='javascript:'>
                       <span>完成</span>
                       <i class='fa fa-check'></i>
                     </a>

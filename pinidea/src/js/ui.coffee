@@ -30,37 +30,103 @@ jQuery(document).on 'ready page:load', ->
 jQuery(document).delegate '.topic-options .option', 'click', ->
   jQuery(this).toggleClass 'active'
 
-# 表单页的下一步按钮
-jQuery(document).delegate '.page-new-topic .form a.next', 'click', ->
-  $current_part = jQuery(this).closest('.part')
-  $to_part = $current_part.next('.part')
+# 表单页的各种事件
+class TopicForm
+  constructor: (@$el)->
+    return if @$el.length is 0
+    @current_step = 1
 
-  current = $current_part.data('step')
-  to = $to_part.data('step')
+    @$url_textarea = @$el.find('textarea.url')
+    @$a_loadurl = @$el.find('a.loadurl')
+    @$infocard = @$el.find('.infocard')
+    @$loading = @$el.find('.loading')
+    @$loadsuccess = @$el.find('.loaded-success')
 
-  $current_part.fadeOut(200)
-  $to_part.fadeIn(200)
+    @bind_events()
 
-  jQuery(".topbar .steps .step[data-step=#{current}]")
-    .removeClass('active')
-    .addClass('done')
+  bind_events: ->
+    @$el.delegate 'a.next:not(.disabled)', 'click', => @to_next()
+    @$el.delegate 'a.prev:not(.disabled)', 'click', => @to_prev()
 
-  jQuery(".topbar .steps .step[data-step=#{to}]")
-    .addClass('active')
+    @$url_textarea.on 'input', =>
+      if jQuery.trim(@$url_textarea.val()).length > 0
+        @$a_loadurl.removeClass('disabled')
+      else
+        @$a_loadurl.addClass('disabled')
 
-jQuery(document).delegate '.page-new-topic .form a.prev', 'click', ->
-  $current_part = jQuery(this).closest('.part')
-  $to_part = $current_part.prev('.part')
+    @$a_loadurl.on 'click', =>
+      return if @$a_loadurl.hasClass('disabled')
+      @loadurl()
 
-  current = $current_part.data('step')
-  to = $to_part.data('step')
+    @$el.delegate 'a.additem', 'click', =>
+      $input = @$el.find('.item-inputs .ipt').last().clone().val('')
+      @$el.find('.item-inputs').append $input.hide().fadeIn(200)
+      @refresh_item_ipts()
 
-  $current_part.fadeOut(200)
-  $to_part.fadeIn(200)
+    that = this
+    @$el.delegate '.ipt a.delete', 'click', ->
+      return if jQuery(this).hasClass('disabled')
+      jQuery(this).closest('.ipt').remove()
+      that.refresh_item_ipts()
 
-  jQuery(".topbar .steps .step[data-step=#{current}]")
-    .removeClass('active')
+  refresh_item_ipts: ->
+    @$el.find('.item-inputs input').each (idx, i)->
+      jQuery(this).attr('placeholder', "选项 #{idx + 1}")
+    if @$el.find('.item-inputs input').length < 3
+      @$el.find('.item-inputs .ipt a.delete').addClass('disabled')
+    else
+      @$el.find('.item-inputs .ipt a.delete').removeClass('disabled')
 
-  jQuery(".topbar .steps .step[data-step=#{to}]")
-    .removeClass('done')
-    .addClass('active')
+  loadurl: ->
+    @$a_loadurl.hide()
+    @$loading.show()
+    @$el.find('a.next.skip').addClass('disabled')
+    @$loading.find('.p')
+      .css
+        'width': 0
+      .animate
+        'width': '100%'
+      , 5000, =>
+        @$infocard.show(200)
+        @$loading.hide()
+        @$loadsuccess.show()
+        @$el.find('a.next.skip').hide()
+        @$el.find('a.next.urldone').show()
+
+
+
+  to_next: ->
+    to_step = @current_step + 1
+    $current_link = @$el.find(".steps .step[data-step=#{@current_step}]")
+    $to_link = @$el.find(".steps .step[data-step=#{to_step}]")
+
+    if $to_link.length > 0
+      $current_part = @$el.find(".part[data-step=#{@current_step}]")
+      $to_part = @$el.find(".part[data-step=#{to_step}]")
+
+      $current_part.fadeOut(200)
+      $to_part.fadeIn(200)
+      $current_link.removeClass('active').addClass('done')
+      $to_link.addClass('active')
+
+      @current_step = to_step
+
+  to_prev: ->
+    to_step = @current_step - 1
+    $current_link = @$el.find(".steps .step[data-step=#{@current_step}]")
+    $to_link = @$el.find(".steps .step[data-step=#{to_step}]")
+
+    if $to_link.length > 0
+      $current_part = @$el.find(".part[data-step=#{@current_step}]")
+      $to_part = @$el.find(".part[data-step=#{to_step}]")
+
+      $current_part.fadeOut(200)
+      $to_part.fadeIn(200)
+      $current_link.removeClass('active')
+      $to_link.addClass('active').removeClass('done')
+
+      @current_step = to_step
+
+
+jQuery(document).on 'ready page:load', ->
+  new TopicForm jQuery('.page-new-topic')
