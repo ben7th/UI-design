@@ -53,15 +53,15 @@
               .product-price ￥7.50
 
 
-        .part{:style => 'display:none;', :data => {:step => 2}}
+        .part.tdesc{:style => 'display:none;', :data => {:step => 2}}
           .fields
             %label 请输入议题描述
-            %textarea.form-control{:placeholder => '有什么事情想知道大家的看法呢？', :rows => 5}
+            %textarea.form-control.tdesc{:placeholder => '有什么事情想知道大家的看法呢？', :rows => 5}
           .submits
             %a.prev{:href => 'javascript:;'}
               %i.fa.fa-arrow-left
               %span 上一步
-            %a.next{:href => 'javascript:;'}
+            %a.next.disabled{:href => 'javascript:;'}
               %span 下一步
               %i.fa.fa-arrow-right
 
@@ -87,6 +87,6 @@
               %i.fa.fa-arrow-up
               %span 按这里增加选项
              
-            %a.done{:href => 'javascript:'}
+            %a.done.disabled{:href => 'add-poll-1-created.html'}
               %span 完成
               %i.fa.fa-check

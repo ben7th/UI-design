@@ -42,17 +42,37 @@ class TopicForm
     @$loading = @$el.find('.loading')
     @$loadsuccess = @$el.find('.loaded-success')
 
+    @$tdesc_textarea = @$el.find('textarea.tdesc')
+
     @bind_events()
 
   bind_events: ->
     @$el.delegate 'a.next:not(.disabled)', 'click', => @to_next()
     @$el.delegate 'a.prev:not(.disabled)', 'click', => @to_prev()
+    @$el.delegate 'a.done.disabled', 'click', (evt)->
+      evt.preventDefault()
+
+    # 如果成功读取了 infocard, 就把这些信息放到下一步表单中
+    @$el.delegate 'a.next.urldone:not(.disabled)', 'click', =>
+      @$infocard1 = @$infocard.clone()
+      console.debug @$infocard1
+      @$el.find('.part.tdesc').prepend @$infocard1
 
     @$url_textarea.on 'input', =>
       if jQuery.trim(@$url_textarea.val()).length > 0
         @$a_loadurl.removeClass('disabled')
       else
         @$a_loadurl.addClass('disabled')
+
+    # 议题描述校验
+    @$tdesc_textarea.on 'input', =>
+      if jQuery.trim(@$tdesc_textarea.val()).length > 0
+        @$tdesc_textarea.closest('.part').find('a.next').removeClass('disabled')
+      else
+        @$tdesc_textarea.closest('.part').find('a.next').addClass('disabled')
+
+    @$el.find('.item-inputs').on 'input', =>
+      @refresh_item_ipts()
 
     @$a_loadurl.on 'click', =>
       return if @$a_loadurl.hasClass('disabled')
@@ -70,8 +90,16 @@ class TopicForm
       that.refresh_item_ipts()
 
   refresh_item_ipts: ->
+    count = 0
     @$el.find('.item-inputs input').each (idx, i)->
       jQuery(this).attr('placeholder', "选项 #{idx + 1}")
+      if jQuery.trim(jQuery(this).val()).length > 0
+        count += 1
+      if count >= 2
+        jQuery(this).closest('.part').find('a.done').removeClass('disabled')
+      else
+        jQuery(this).closest('.part').find('a.done').addClass('disabled')
+
     if @$el.find('.item-inputs input').length < 3
       @$el.find('.item-inputs .ipt a.delete').addClass('disabled')
     else
@@ -86,7 +114,7 @@ class TopicForm
         'width': 0
       .animate
         'width': '100%'
-      , 5000, =>
+      , 3000, =>
         @$infocard.show(200)
         @$loading.hide()
         @$loadsuccess.show()
@@ -130,3 +158,13 @@ class TopicForm
 
 jQuery(document).on 'ready page:load', ->
   new TopicForm jQuery('.page-new-topic')
+
+
+# 导航上的“新增”按钮
+jQuery(document).delegate '.footer-nav .item.new', 'click', ->
+  jQuery('.footer-nav').addClass('new-topic-type-select')
+  jQuery('.float-new-type-select').addClass('show')
+
+jQuery(document).delegate '.footer-nav a.cancel-new', 'click', ->
+  jQuery('.footer-nav').removeClass('new-topic-type-select')
+  jQuery('.float-new-type-select').removeClass('show')

@@ -46,6 +46,7 @@
       this.$infocard = this.$el.find('.infocard');
       this.$loading = this.$el.find('.loading');
       this.$loadsuccess = this.$el.find('.loaded-success');
+      this.$tdesc_textarea = this.$el.find('textarea.tdesc');
       this.bind_events();
     }
 
@@ -61,6 +62,16 @@
           return _this.to_prev();
         };
       })(this));
+      this.$el.delegate('a.done.disabled', 'click', function(evt) {
+        return evt.preventDefault();
+      });
+      this.$el.delegate('a.next.urldone:not(.disabled)', 'click', (function(_this) {
+        return function() {
+          _this.$infocard1 = _this.$infocard.clone();
+          console.debug(_this.$infocard1);
+          return _this.$el.find('.part.tdesc').prepend(_this.$infocard1);
+        };
+      })(this));
       this.$url_textarea.on('input', (function(_this) {
         return function() {
           if (jQuery.trim(_this.$url_textarea.val()).length > 0) {
@@ -68,6 +79,20 @@
           } else {
             return _this.$a_loadurl.addClass('disabled');
           }
+        };
+      })(this));
+      this.$tdesc_textarea.on('input', (function(_this) {
+        return function() {
+          if (jQuery.trim(_this.$tdesc_textarea.val()).length > 0) {
+            return _this.$tdesc_textarea.closest('.part').find('a.next').removeClass('disabled');
+          } else {
+            return _this.$tdesc_textarea.closest('.part').find('a.next').addClass('disabled');
+          }
+        };
+      })(this));
+      this.$el.find('.item-inputs').on('input', (function(_this) {
+        return function() {
+          return _this.refresh_item_ipts();
         };
       })(this));
       this.$a_loadurl.on('click', (function(_this) {
@@ -97,8 +122,18 @@
     };
 
     TopicForm.prototype.refresh_item_ipts = function() {
+      var count;
+      count = 0;
       this.$el.find('.item-inputs input').each(function(idx, i) {
-        return jQuery(this).attr('placeholder', "选项 " + (idx + 1));
+        jQuery(this).attr('placeholder', "选项 " + (idx + 1));
+        if (jQuery.trim(jQuery(this).val()).length > 0) {
+          count += 1;
+        }
+        if (count >= 2) {
+          return jQuery(this).closest('.part').find('a.done').removeClass('disabled');
+        } else {
+          return jQuery(this).closest('.part').find('a.done').addClass('disabled');
+        }
       });
       if (this.$el.find('.item-inputs input').length < 3) {
         return this.$el.find('.item-inputs .ipt a.delete').addClass('disabled');
@@ -115,7 +150,7 @@
         'width': 0
       }).animate({
         'width': '100%'
-      }, 5000, (function(_this) {
+      }, 3000, (function(_this) {
         return function() {
           _this.$infocard.show(200);
           _this.$loading.hide();
@@ -164,6 +199,16 @@
 
   jQuery(document).on('ready page:load', function() {
     return new TopicForm(jQuery('.page-new-topic'));
+  });
+
+  jQuery(document).delegate('.footer-nav .item.new', 'click', function() {
+    jQuery('.footer-nav').addClass('new-topic-type-select');
+    return jQuery('.float-new-type-select').addClass('show');
+  });
+
+  jQuery(document).delegate('.footer-nav a.cancel-new', 'click', function() {
+    jQuery('.footer-nav').removeClass('new-topic-type-select');
+    return jQuery('.float-new-type-select').removeClass('show');
   });
 
 }).call(this);
