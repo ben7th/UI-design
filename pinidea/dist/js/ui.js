@@ -52,58 +52,21 @@
 
     TopicForm.prototype.bind_events = function() {
       var that;
-      this.$el.delegate('a.next:not(.disabled)', 'click', (function(_this) {
+      this.$el.off('click');
+      this.$el.on('click', 'a.next:not(.disabled)', (function(_this) {
         return function() {
           return _this.to_next();
         };
       })(this));
-      this.$el.delegate('a.prev:not(.disabled)', 'click', (function(_this) {
+      this.$el.on('click', 'a.prev:not(.disabled)', (function(_this) {
         return function() {
           return _this.to_prev();
         };
       })(this));
-      this.$el.delegate('a.done.disabled', 'click', function(evt) {
+      this.$el.on('click', 'a.done.disabled', function(evt) {
         return evt.preventDefault();
       });
-      this.$el.delegate('a.next.urldone:not(.disabled)', 'click', (function(_this) {
-        return function() {
-          _this.$infocard1 = _this.$infocard.clone();
-          console.debug(_this.$infocard1);
-          return _this.$el.find('.part.tdesc').find('.infocard').remove().end().prepend(_this.$infocard1);
-        };
-      })(this));
-      this.$url_textarea.on('input', (function(_this) {
-        return function() {
-          if (jQuery.trim(_this.$url_textarea.val()).length > 0) {
-            return _this.$a_loadurl.removeClass('disabled');
-          } else {
-            return _this.$a_loadurl.addClass('disabled');
-          }
-        };
-      })(this));
-      this.$tdesc_textarea.on('input', (function(_this) {
-        return function() {
-          if (jQuery.trim(_this.$tdesc_textarea.val()).length > 0) {
-            return _this.$tdesc_textarea.closest('.part').find('a.next').removeClass('disabled');
-          } else {
-            return _this.$tdesc_textarea.closest('.part').find('a.next').addClass('disabled');
-          }
-        };
-      })(this));
-      this.$el.find('.item-inputs').on('input', (function(_this) {
-        return function() {
-          return _this.refresh_item_ipts();
-        };
-      })(this));
-      this.$a_loadurl.on('click', (function(_this) {
-        return function() {
-          if (_this.$a_loadurl.hasClass('disabled')) {
-            return;
-          }
-          return _this.loadurl();
-        };
-      })(this));
-      this.$el.delegate('a.additem', 'click', (function(_this) {
+      this.$el.on('click', 'a.additem', (function(_this) {
         return function() {
           var $input;
           $input = _this.$el.find('.item-inputs .ipt').last().clone().val('');
@@ -112,13 +75,51 @@
         };
       })(this));
       that = this;
-      return this.$el.delegate('.ipt a.delete', 'click', function() {
+      this.$el.on('click', '.ipt a.delete', function() {
         if (jQuery(this).hasClass('disabled')) {
           return;
         }
         jQuery(this).closest('.ipt').remove();
         return that.refresh_item_ipts();
       });
+      this.$el.on('click', 'a.next.urldone:not(.disabled)', (function(_this) {
+        return function() {
+          _this.$infocard1 = _this.$infocard.clone();
+          console.debug(_this.$infocard1);
+          return _this.$el.find('.part.tdesc').find('.infocard').remove().end().prepend(_this.$infocard1);
+        };
+      })(this));
+      this.$url_textarea.off('input').on('input', (function(_this) {
+        return function() {
+          if (jQuery.trim(_this.$url_textarea.val()).length > 0) {
+            return _this.$a_loadurl.removeClass('disabled');
+          } else {
+            return _this.$a_loadurl.addClass('disabled');
+          }
+        };
+      })(this));
+      this.$tdesc_textarea.off('input').on('input', (function(_this) {
+        return function() {
+          if (jQuery.trim(_this.$tdesc_textarea.val()).length > 0) {
+            return _this.$tdesc_textarea.closest('.part').find('a.next').removeClass('disabled');
+          } else {
+            return _this.$tdesc_textarea.closest('.part').find('a.next').addClass('disabled');
+          }
+        };
+      })(this));
+      this.$el.find('.item-inputs').off('input').on('input', (function(_this) {
+        return function() {
+          return _this.refresh_item_ipts();
+        };
+      })(this));
+      return this.$a_loadurl.off('click').on('click', (function(_this) {
+        return function() {
+          if (_this.$a_loadurl.hasClass('disabled')) {
+            return;
+          }
+          return _this.loadurl();
+        };
+      })(this));
     };
 
     TopicForm.prototype.refresh_item_ipts = function() {

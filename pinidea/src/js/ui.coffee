@@ -47,49 +47,52 @@ class TopicForm
     @bind_events()
 
   bind_events: ->
-    @$el.delegate 'a.next:not(.disabled)', 'click', => @to_next()
-    @$el.delegate 'a.prev:not(.disabled)', 'click', => @to_prev()
-    @$el.delegate 'a.done.disabled', 'click', (evt)->
+    @$el.off 'click'
+    @$el.on 'click', 'a.next:not(.disabled)', => @to_next()
+    @$el.on 'click', 'a.prev:not(.disabled)', => @to_prev()
+    @$el.on 'click', 'a.done.disabled', (evt)->
       evt.preventDefault()
 
+    @$el.on 'click', 'a.additem', =>
+      $input = @$el.find('.item-inputs .ipt').last().clone().val('')
+      @$el.find('.item-inputs').append $input.hide().fadeIn(200)
+      @refresh_item_ipts()
+
+    that = this
+    @$el.on 'click', '.ipt a.delete', ->
+      return if jQuery(this).hasClass('disabled')
+      jQuery(this).closest('.ipt').remove()
+      that.refresh_item_ipts()
+
     # 如果成功读取了 infocard, 就把这些信息放到下一步表单中
-    @$el.delegate 'a.next.urldone:not(.disabled)', 'click', =>
+    @$el.on 'click', 'a.next.urldone:not(.disabled)', =>
       @$infocard1 = @$infocard.clone()
       console.debug @$infocard1
       @$el.find('.part.tdesc')
         .find('.infocard').remove().end()
         .prepend @$infocard1
 
-    @$url_textarea.on 'input', =>
+    # -------------
+
+    @$url_textarea.off('input').on 'input' , =>
       if jQuery.trim(@$url_textarea.val()).length > 0
         @$a_loadurl.removeClass('disabled')
       else
         @$a_loadurl.addClass('disabled')
 
     # 议题描述校验
-    @$tdesc_textarea.on 'input', =>
+    @$tdesc_textarea.off('input').on 'input' , =>
       if jQuery.trim(@$tdesc_textarea.val()).length > 0
         @$tdesc_textarea.closest('.part').find('a.next').removeClass('disabled')
       else
         @$tdesc_textarea.closest('.part').find('a.next').addClass('disabled')
 
-    @$el.find('.item-inputs').on 'input', =>
+    @$el.find('.item-inputs').off('input').on 'input', =>
       @refresh_item_ipts()
 
-    @$a_loadurl.on 'click', =>
+    @$a_loadurl.off('click').on 'click', =>
       return if @$a_loadurl.hasClass('disabled')
       @loadurl()
-
-    @$el.delegate 'a.additem', 'click', =>
-      $input = @$el.find('.item-inputs .ipt').last().clone().val('')
-      @$el.find('.item-inputs').append $input.hide().fadeIn(200)
-      @refresh_item_ipts()
-
-    that = this
-    @$el.delegate '.ipt a.delete', 'click', ->
-      return if jQuery(this).hasClass('disabled')
-      jQuery(this).closest('.ipt').remove()
-      that.refresh_item_ipts()
 
   refresh_item_ipts: ->
     count = 0
