@@ -56,7 +56,9 @@ class TopicForm
     @$el.delegate 'a.next.urldone:not(.disabled)', 'click', =>
       @$infocard1 = @$infocard.clone()
       console.debug @$infocard1
-      @$el.find('.part.tdesc').prepend @$infocard1
+      @$el.find('.part.tdesc')
+        .find('.infocard').remove().end()
+        .prepend @$infocard1
 
     @$url_textarea.on 'input', =>
       if jQuery.trim(@$url_textarea.val()).length > 0

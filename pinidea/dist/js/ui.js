@@ -69,7 +69,7 @@
         return function() {
           _this.$infocard1 = _this.$infocard.clone();
           console.debug(_this.$infocard1);
-          return _this.$el.find('.part.tdesc').prepend(_this.$infocard1);
+          return _this.$el.find('.part.tdesc').find('.infocard').remove().end().prepend(_this.$infocard1);
         };
       })(this));
       this.$url_textarea.on('input', (function(_this) {
