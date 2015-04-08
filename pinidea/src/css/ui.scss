@@ -908,6 +908,7 @@ body.auth {
     top: $bar-height;left:0px;right:0;bottom:0;
     overflow-y: scroll;
     .history {
+      @include clearfix;
       margin-top: 10px;
       box-shadow: $common-box-shadow;
       $w: 40px;

@@ -210,7 +210,8 @@ class SearchPage
     # 点选搜索历史项
     @$el.on 'click', '.history .word a.s', ->
       q = jQuery(this).find('.t').text()
-      that.search q
+      that.$input.val q
+      that.search()
 
     # 取消搜索状态
     @$el.on 'click', '.topbar a.cancel', ->
@@ -218,7 +219,7 @@ class SearchPage
 
     # 输入搜索词
     @$input.on 'input', =>
-      @search @$input.val()
+      @search()
 
     # 清除搜索历史
     @$el.on 'click', '.history a.clear', =>
@@ -226,8 +227,7 @@ class SearchPage
         @$el.find('.history .word').fadeOut 200, =>
           @$el.find('.history .word').remove()
 
-  search: (q)->
-    @$input.val q
+  search: ->
     @$topbar.addClass 'filled'
     if not is_field_empty @$input
       @$history.hide()

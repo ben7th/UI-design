@@ -238,14 +238,15 @@
       this.$el.on('click', '.history .word a.s', function() {
         var q;
         q = jQuery(this).find('.t').text();
-        return that.search(q);
+        that.$input.val(q);
+        return that.search();
       });
       this.$el.on('click', '.topbar a.cancel', function() {
         return that.cancel();
       });
       this.$input.on('input', (function(_this) {
         return function() {
-          return _this.search(_this.$input.val());
+          return _this.search();
         };
       })(this));
       return this.$el.on('click', '.history a.clear', (function(_this) {
@@ -259,8 +260,7 @@
       })(this));
     };
 
-    SearchPage.prototype.search = function(q) {
-      this.$input.val(q);
+    SearchPage.prototype.search = function() {
       this.$topbar.addClass('filled');
       if (!is_field_empty(this.$input)) {
         this.$history.hide();
