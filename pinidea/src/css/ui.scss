@@ -945,6 +945,18 @@ body.auth {
           color: #999;
         }
       }
+      a.clear {
+        display: block;
+        @include height($w);
+        text-align: center;
+        color: #999;
+        text-decoration: none;
+        background-color: #F7F7F7;
+        &:hover{background-color: $list-hover-bg-color;}
+        &:first-child {
+          display: none;
+        }
+      }
     }
     .result {
       margin-top: 10px;

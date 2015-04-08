@@ -243,9 +243,18 @@
       this.$el.on('click', '.topbar a.cancel', function() {
         return that.cancel();
       });
-      return this.$input.on('input', (function(_this) {
+      this.$input.on('input', (function(_this) {
         return function() {
           return _this.search(_this.$input.val());
+        };
+      })(this));
+      return this.$el.on('click', '.history a.clear', (function(_this) {
+        return function() {
+          if (confirm('确定要清除吗？')) {
+            return _this.$el.find('.history .word').fadeOut(200, function() {
+              return _this.$el.find('.history .word').remove();
+            });
+          }
         };
       })(this));
     };

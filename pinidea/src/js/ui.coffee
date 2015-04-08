@@ -220,6 +220,12 @@ class SearchPage
     @$input.on 'input', =>
       @search @$input.val()
 
+    # 清除搜索历史
+    @$el.on 'click', '.history a.clear', =>
+      if confirm '确定要清除吗？'
+        @$el.find('.history .word').fadeOut 200, =>
+          @$el.find('.history .word').remove()
+
   search: (q)->
     @$input.val q
     @$topbar.addClass 'filled'
