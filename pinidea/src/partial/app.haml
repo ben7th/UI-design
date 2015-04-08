@@ -7,6 +7,14 @@
 
     %link{:rel => 'stylesheet', :href => '../css/ui.css'}
 
+    :ruby
+      lib_path = "../../../lib"
+
+    %script{:type => 'text/javascript', :src => "#{lib_path}/jquery-2.1.1.min.js"}
+    %script{:type => 'text/javascript', :src => "../js/turbolinks.js"}
+
+    %script{:type => 'text/javascript', :src => "../js/ui.js"}
+
   %body
     .layout-content
       = yield
@@ -40,11 +48,3 @@
           %a.good{:href => 'add-poll-0-new-good.html'}
             %i.fa.fa-rocket
           %span.t 分享点评
-
-
-    :ruby
-      lib_path = "../../../lib"
-
-    %script{:type => 'text/javascript', :src => "#{lib_path}/jquery-2.1.1.min.js"}
-
-    %script{:type => 'text/javascript', :src => "../js/ui.js?123"}

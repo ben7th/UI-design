@@ -7,16 +7,17 @@
 
     %link{:rel => 'stylesheet', :href => '../css/ui.css'}
 
+    :ruby
+      lib_path = "../../../lib"
+
+    %script{:type => 'text/javascript', :src => "#{lib_path}/jquery-2.1.1.min.js"}
+    %script{:type => 'text/javascript', :src => "../js/turbolinks.js"}
+
+    %script{:type => 'text/javascript', :src => "../js/ui.js"}
+
   %body.auth
     .page-auth
       .container-full
         .row
           .page-content-inner.col-pad-12
             = yield
-
-    :ruby
-      lib_path = "../../../lib"
-
-    %script{:type => 'text/javascript', :src => "#{lib_path}/jquery-2.1.1.min.js"}
-
-    %script{:type => 'text/javascript', :src => "../js/ui.js"}

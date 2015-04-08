@@ -1,5 +1,5 @@
 (function() {
-  var TopicForm;
+  var TopicForm, is_field_empty;
 
   jQuery(document).on('ready page:load', function() {
     return console.debug('loaded');
@@ -17,7 +17,7 @@
     return jQuery(".layout-header .page").text(title);
   });
 
-  jQuery(document).delegate('.page-landing .filter a.item', 'click', function() {
+  jQuery(document).on('click', '.page-landing .filter a.item', function() {
     var $item;
     $item = jQuery(this);
     $item.closest('.filter').find('a.item').removeClass('active');
@@ -30,9 +30,23 @@
     return jQuery(".layout-header .back").attr('href', back_url);
   });
 
-  jQuery(document).delegate('.topic-options .option', 'click', function() {
+  jQuery(document).on('click', '.topic-options .option', function() {
     return jQuery(this).toggleClass('active');
   });
+
+  jQuery(document).on('click', '.footer-nav .item.new', function() {
+    jQuery('.footer-nav').addClass('new-topic-type-select');
+    return jQuery('.float-new-type-select').addClass('show');
+  });
+
+  jQuery(document).on('click', '.footer-nav a.cancel-new', function() {
+    jQuery('.footer-nav').removeClass('new-topic-type-select');
+    return jQuery('.float-new-type-select').removeClass('show');
+  });
+
+  is_field_empty = function($field) {
+    return jQuery.trim($field.val()).length === 0;
+  };
 
   TopicForm = (function() {
     function TopicForm($el) {
@@ -52,7 +66,6 @@
 
     TopicForm.prototype.bind_events = function() {
       var that;
-      this.$el.off('click');
       this.$el.on('click', 'a.next:not(.disabled)', (function(_this) {
         return function() {
           return _this.to_next();
@@ -66,58 +79,57 @@
       this.$el.on('click', 'a.done.disabled', function(evt) {
         return evt.preventDefault();
       });
+      that = this;
       this.$el.on('click', 'a.additem', (function(_this) {
         return function() {
-          var $input;
-          $input = _this.$el.find('.item-inputs .ipt').last().clone().val('');
-          _this.$el.find('.item-inputs').append($input.hide().fadeIn(200));
+          var $ipt;
+          $ipt = _this.$el.find('.item-inputs .ipt').last().clone();
+          $ipt.find('input').val('');
+          $ipt.hide().fadeIn(200);
+          _this.$el.find('.item-inputs').append($ipt);
           return _this.refresh_item_ipts();
         };
       })(this));
-      that = this;
-      this.$el.on('click', '.ipt a.delete', function() {
-        if (jQuery(this).hasClass('disabled')) {
-          return;
-        }
+      this.$el.on('click', '.ipt a.delete:not(.disabled)', function() {
         jQuery(this).closest('.ipt').remove();
         return that.refresh_item_ipts();
       });
-      this.$el.on('click', 'a.next.urldone:not(.disabled)', (function(_this) {
-        return function() {
-          _this.$infocard1 = _this.$infocard.clone();
-          console.debug(_this.$infocard1);
-          return _this.$el.find('.part.tdesc').find('.infocard').remove().end().prepend(_this.$infocard1);
-        };
-      })(this));
-      this.$url_textarea.off('input').on('input', (function(_this) {
-        return function() {
-          if (jQuery.trim(_this.$url_textarea.val()).length > 0) {
-            return _this.$a_loadurl.removeClass('disabled');
-          } else {
-            return _this.$a_loadurl.addClass('disabled');
-          }
-        };
-      })(this));
-      this.$tdesc_textarea.off('input').on('input', (function(_this) {
-        return function() {
-          if (jQuery.trim(_this.$tdesc_textarea.val()).length > 0) {
-            return _this.$tdesc_textarea.closest('.part').find('a.next').removeClass('disabled');
-          } else {
-            return _this.$tdesc_textarea.closest('.part').find('a.next').addClass('disabled');
-          }
-        };
-      })(this));
-      this.$el.find('.item-inputs').off('input').on('input', (function(_this) {
+      this.$el.find('.item-inputs').on('input', (function(_this) {
         return function() {
           return _this.refresh_item_ipts();
         };
       })(this));
-      return this.$a_loadurl.off('click').on('click', (function(_this) {
+      this.$url_textarea.on('input', (function(_this) {
+        return function() {
+          if (is_field_empty(_this.$url_textarea)) {
+            return _this.$a_loadurl.addClass('disabled');
+          } else {
+            return _this.$a_loadurl.removeClass('disabled');
+          }
+        };
+      })(this));
+      this.$a_loadurl.on('click', (function(_this) {
         return function() {
           if (_this.$a_loadurl.hasClass('disabled')) {
             return;
           }
           return _this.loadurl();
+        };
+      })(this));
+      this.$el.on('click', 'a.next.urldone:not(.disabled)', (function(_this) {
+        return function() {
+          return _this.$el.find('.part.tdesc').find('.infocard').remove().end().prepend(_this.$infocard.clone());
+        };
+      })(this));
+      return this.$tdesc_textarea.on('input', (function(_this) {
+        return function() {
+          var $a_next;
+          $a_next = _this.$tdesc_textarea.closest('.part').find('a.next');
+          if (is_field_empty(_this.$tdesc_textarea)) {
+            return $a_next.addClass('disabled');
+          } else {
+            return $a_next.removeClass('disabled');
+          }
         };
       })(this));
     };
@@ -153,11 +165,12 @@
         'width': '100%'
       }, 3000, (function(_this) {
         return function() {
-          _this.$infocard.show(200);
+          _this.$infocard.fadeIn(200);
           _this.$loading.hide();
           _this.$loadsuccess.show();
           _this.$el.find('a.next.skip').hide();
-          return _this.$el.find('a.next.urldone').show();
+          _this.$el.find('a.next.urldone').show();
+          return _this.$url_textarea.attr('disabled', true);
         };
       })(this));
     };
@@ -200,16 +213,6 @@
 
   jQuery(document).on('ready page:load', function() {
     return new TopicForm(jQuery('.page-new-topic'));
-  });
-
-  jQuery(document).delegate('.footer-nav .item.new', 'click', function() {
-    jQuery('.footer-nav').addClass('new-topic-type-select');
-    return jQuery('.float-new-type-select').addClass('show');
-  });
-
-  jQuery(document).delegate('.footer-nav a.cancel-new', 'click', function() {
-    jQuery('.footer-nav').removeClass('new-topic-type-select');
-    return jQuery('.float-new-type-select').removeClass('show');
   });
 
 }).call(this);
