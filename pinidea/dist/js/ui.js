@@ -1,5 +1,5 @@
 (function() {
-  var TopicForm, is_field_empty;
+  var SearchPage, TopicForm, is_field_empty;
 
   jQuery(document).on('ready page:load', function() {
     return console.debug('loaded');
@@ -212,7 +212,71 @@
   })();
 
   jQuery(document).on('ready page:load', function() {
-    return new TopicForm(jQuery('.page-new-topic'));
+    if (jQuery('.page-new-topic').length > 0) {
+      return new TopicForm(jQuery('.page-new-topic'));
+    }
+  });
+
+  SearchPage = (function() {
+    function SearchPage($el) {
+      this.$el = $el;
+      this.$history = this.$el.find('.history');
+      this.$result = this.$el.find('.result');
+      this.$input = this.$el.find('input[name=q]');
+      this.$topbar = this.$el.find('.topbar');
+      this.bind_events();
+    }
+
+    SearchPage.prototype.bind_events = function() {
+      var that;
+      that = this;
+      this.$el.on('click', '.history .word a.delete', function() {
+        return jQuery(this).closest('.word').fadeOut(200, function() {
+          return jQuery(this).remove();
+        });
+      });
+      this.$el.on('click', '.history .word a.s', function() {
+        var q;
+        q = jQuery(this).find('.t').text();
+        return that.search(q);
+      });
+      this.$el.on('click', '.topbar a.cancel', function() {
+        return that.cancel();
+      });
+      return this.$input.on('input', (function(_this) {
+        return function() {
+          return _this.search(_this.$input.val());
+        };
+      })(this));
+    };
+
+    SearchPage.prototype.search = function(q) {
+      this.$input.val(q);
+      this.$topbar.addClass('filled');
+      if (!is_field_empty(this.$input)) {
+        this.$history.hide();
+        return this.$result.fadeIn(200);
+      } else {
+        this.$history.fadeIn(200);
+        return this.$result.hide();
+      }
+    };
+
+    SearchPage.prototype.cancel = function() {
+      this.$history.fadeIn(200);
+      this.$result.hide();
+      this.$input.val('');
+      return this.$topbar.removeClass('filled');
+    };
+
+    return SearchPage;
+
+  })();
+
+  jQuery(document).on('ready page:load', function() {
+    if (jQuery('.page-search').length > 0) {
+      return new SearchPage(jQuery('.page-search'));
+    }
   });
 
 }).call(this);

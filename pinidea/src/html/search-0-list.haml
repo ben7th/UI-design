@@ -1,0 +1,45 @@
+= Haml::Engine.new(File.read "#{Dir.pwd}/pinidea/src/partial/app.haml").render do
+  - capture_haml do
+    .page-search{:data => {:nav => :search}}
+      .topbar
+        %i.fa.fa-search
+        .ipt
+          %input.form-control{:name => :q, :placeholder => '输入搜索词'}
+        %a.cancel{:href => 'javascript:;'} 取消
+
+      .search-content
+        .history
+          .word
+            %a.s{:href => 'javascript:;'}
+              %i.fa.fa-clock-o
+              .t 豆腐脑
+            %a.delete{:href => 'javascript:;'}
+              %i.fa.fa-times
+          .word
+            %a.s{:href => 'javascript:;'}
+              %i.fa.fa-clock-o
+              .t 扇贝单词
+            %a.delete{:href => 'javascript:;'}
+              %i.fa.fa-times
+          .word
+            %a.s{:href => 'javascript:;'}
+              %i.fa.fa-clock-o
+              .t 挖掘机技术
+            %a.delete{:href => 'javascript:;'}
+              %i.fa.fa-times
+
+        .result{:style => 'display:none;'}
+          %a.topic{:href => 'home-2-topic.html'}
+            .data
+              .title 你喜欢什么口味的<span class='key'>豆腐脑</span>？
+              .stat
+                %span 5 个选项
+                %span 20 人参与
+            .joiner-count 18
+          %a.topic{:href => 'home-2-topic.html'}
+            .data
+              .title <span class='key'>豆腐脑</span>好还是豆浆好？
+              .stat
+                %span 3 个选项
+                %span 18 人参与
+            .joiner-count 18

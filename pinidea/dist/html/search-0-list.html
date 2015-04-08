@@ -11,57 +11,65 @@
   </head>
   <body>
     <div class='layout-content'>
-      <div class='page-landing' data-nav='home' data-title='议题大厅'>
+      <div class='page-search' data-nav='search'>
         <div class='topbar'>
-          <div class='filter'>
-            <a class='item newest active' href='javascript:;'>
-              <span>最新</span>
-            </a>
-            <a class='item hotest' href='javascript:;'>
-              <span>最热</span>
-            </a>
+          <i class='fa fa-search'></i>
+          <div class='ipt'>
+            <input class='form-control' name='q' placeholder='输入搜索词'>
           </div>
-          <a class='lucky' href='home-2-topic.html'>
-            <i class='fa fa-smile-o'></i>
-          </a>
+          <a class='cancel' href='javascript:;'>取消</a>
         </div>
-        <div class='topics list'>
-          <a class='topic' href='home-2-topic.html'>
-            <div class='data'>
-              <div class='title'>“扇贝单词”有哪些令你印象深刻的地方？</div>
-              <div class='options'>
-                <div class='option'>可以从自己已背过的单词库随机出题...</div>
-                <div class='option'>利用测试单词量功能，迅速了解自己...</div>
-                <div class='option'>PC网页，安卓，苹果都支持！</div>
-              </div>
+        <div class='search-content'>
+          <div class='history'>
+            <div class='word'>
+              <a class='s' href='javascript:;'>
+                <i class='fa fa-clock-o'></i>
+                <div class='t'>豆腐脑</div>
+              </a>
+              <a class='delete' href='javascript:;'>
+                <i class='fa fa-times'></i>
+              </a>
             </div>
-            <div class='joiner-count'>20</div>
-          </a>
-          <a class='topic' href='home-2-topic.html'>
-            <div class='data'>
-              <div class='title'>你喜欢什么口味的豆腐脑？</div>
-              <div class='options'>
-                <div class='option'>甜的，我是南方人。</div>
-                <div class='option'>咸的，我是北方人。</div>
-                <div class='option'>咸的，我是南方人。</div>
-              </div>
+            <div class='word'>
+              <a class='s' href='javascript:;'>
+                <i class='fa fa-clock-o'></i>
+                <div class='t'>扇贝单词</div>
+              </a>
+              <a class='delete' href='javascript:;'>
+                <i class='fa fa-times'></i>
+              </a>
             </div>
-            <div class='joiner-count'>18</div>
-          </a>
-          <a class='topic' href='home-2-topic.html'>
-            <div class='data'>
-              <div class='title'>你觉得一度赞方便面口味怎样？</div>
-              <div class='options'>
-                <div class='option'>没吃过诶。</div>
-                <div class='option'>太油了。</div>
-                <div class='option'>挺好的！比一般方便面强！</div>
-              </div>
+            <div class='word'>
+              <a class='s' href='javascript:;'>
+                <i class='fa fa-clock-o'></i>
+                <div class='t'>挖掘机技术</div>
+              </a>
+              <a class='delete' href='javascript:;'>
+                <i class='fa fa-times'></i>
+              </a>
             </div>
-            <div class='joiner-count'>9</div>
-          </a>
-          <div class='loading'>
-            <i class='fa fa-circle-o-notch fa-spin'></i>
-            <span>读取中…</span>
+          </div>
+          <div class='result' style='display:none;'>
+            <a class='topic' href='home-2-topic.html'>
+              <div class='data'>
+                <div class='title'>你喜欢什么口味的<span class='key'>豆腐脑</span>？</div>
+                <div class='stat'>
+                  <span>5 个选项</span>
+                  <span>20 人参与</span>
+                </div>
+              </div>
+              <div class='joiner-count'>18</div>
+            </a>
+            <a class='topic' href='home-2-topic.html'>
+              <div class='data'>
+                <div class='title'><span class='key'>豆腐脑</span>好还是豆浆好？</div>
+                <div class='stat'>
+                  <span>3 个选项</span>
+                  <span>18 人参与</span>
+                </div>
+              </div>
+              <div class='joiner-count'>18</div>
+            </a>
           </div>
         </div>
       </div>
