@@ -288,6 +288,30 @@
     }
   });
 
+  jQuery(document).on('click', '.page-me a.quit', function() {
+    if (confirm('确定要退出吗？')) {
+      return Turbolinks.visit('home-0-auth.html');
+    }
+  });
+
+  jQuery(document).on('click', '.page-me a.toggler', function() {
+    jQuery(this).toggleClass('on');
+    return jQuery(this).toggleClass('off');
+  });
+
+  jQuery(document).on('input', 'textarea.feedback-ipt', function() {
+    if (is_field_empty(jQuery(this))) {
+      return jQuery(this).next('a.btn').addClass('disabled');
+    } else {
+      return jQuery(this).next('a.btn').removeClass('disabled');
+    }
+  });
+
+  jQuery(document).on('click', 'a.submit-feedback:not(.disabled)', function() {
+    jQuery('.feedback .form').hide();
+    return jQuery('.feedback .success').fadeIn();
+  });
+
 }).call(this);
 
 //# sourceMappingURL=../maps/ui.js.map

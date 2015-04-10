@@ -1,0 +1,39 @@
+= Haml::Engine.new(File.read "#{Dir.pwd}/pinidea/src/partial/detail.haml").render do
+  - capture_haml do
+    .page-me.detail{:data => {:nav => :me}}
+      .header
+        .set.info
+          .item.back
+            %a.back{:href => 'me-0-config.html'}
+              %i.fa.fa-chevron-left
+            .title 详细信息
+      .info-detail
+        .set.info
+          .item.info.me{:href => 'javascript:;'}
+            .t 头像
+            .avatar
+              %img{:src => 'http://img.teamkn.com/i/mQTXjy9m.png'}
+          .item.info
+            .t 昵称
+            .v 月如卡卡
+          .item.info
+            .t 所在地
+            .v 广东 广州
+          .item.info
+            .t 性别
+            .v 女
+          .item.info
+            .t 性取向
+            .v 双性恋
+          .item.info
+            .t 感情状况
+            .v 
+          .item.info
+            .t 星座
+            .v 射手座
+          .item.info
+            .t 血型
+            .v 
+          .item.info
+            .t 简介
+            .v Never say ever....C.C

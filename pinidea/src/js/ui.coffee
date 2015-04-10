@@ -246,3 +246,25 @@ class SearchPage
 jQuery(document).on 'ready page:load', ->
   if jQuery('.page-search').length > 0
     new SearchPage jQuery('.page-search')
+
+# 登出
+jQuery(document).on 'click', '.page-me a.quit', ->
+  if confirm('确定要退出吗？')
+    Turbolinks.visit('home-0-auth.html')
+
+# 点击设置项
+jQuery(document).on 'click', '.page-me a.toggler', ->
+  jQuery(this).toggleClass('on')
+  jQuery(this).toggleClass('off')
+
+# 输入反馈
+jQuery(document).on 'input', 'textarea.feedback-ipt', ->
+  if is_field_empty jQuery(this)
+    jQuery(this).next('a.btn').addClass('disabled')
+  else
+    jQuery(this).next('a.btn').removeClass('disabled')
+
+# 提交反馈
+jQuery(document).on 'click', 'a.submit-feedback:not(.disabled)', ->
+  jQuery('.feedback .form').hide()
+  jQuery('.feedback .success').fadeIn()

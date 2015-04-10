@@ -1,0 +1,32 @@
+= Haml::Engine.new(File.read "#{Dir.pwd}/pinidea/src/partial/detail.haml").render do
+  - capture_haml do
+    .page-me.detail{:data => {:nav => :me}}
+      .header
+        .set.info
+          .item.back
+            %a.back{:href => 'me-0-config.html'}
+              %i.fa.fa-chevron-left
+            .title 我发起的议题
+      .info-detail
+        .topics
+          %a.topic{:href => 'home-2-topic.html'}
+            .data
+              .title 你喜欢什么口味的豆腐脑？
+              .stat
+                %span 5 个选项
+                %span 20 人参与
+            .joiner-count 18
+          %a.topic{:href => 'home-2-topic.html'}
+            .data
+              .title 优酷、土豆打仗，你支持谁？
+              .stat
+                %span 3 个选项
+                %span 18 人参与
+            .joiner-count 18
+          %a.topic{:href => 'home-2-topic.html'}
+            .data
+              .title 你需要一个陪你熬夜的人，还是一个劝你早睡的人？
+              .stat
+                %span 3 个选项
+                %span 18 人参与
+            .joiner-count 18
