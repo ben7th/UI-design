@@ -308,7 +308,7 @@
     return jQuery('.feedback .success').fadeIn();
   });
 
-  jQuery(document).on('click', '.page-topic .topic-new-option a.new', function() {
+  jQuery(document).on('click', '.page-topic .topic-new-option a.new:not(.disabled)', function() {
     console.debug(jQuery('.new-option-overlay'));
     return jQuery('.new-option-overlay').addClass('show');
   });
@@ -322,8 +322,11 @@
     text = jQuery('.new-option-overlay textarea').val();
     $option = jQuery('a.option').first().clone();
     $option.find('.text').text(text);
+    $option.addClass('active');
     jQuery('.topic-options').append($option);
-    return jQuery('.new-option-overlay').removeClass('show');
+    jQuery('.new-option-overlay').removeClass('show');
+    refresh_voted_options();
+    return jQuery('.page-topic .topic-new-option a.new').addClass('disabled').find('i').hide().end().find('span').text('只能补充一个，已经补充过了');
   });
 
   jQuery(document).on('input', '.new-option-overlay textarea', function() {

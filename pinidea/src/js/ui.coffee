@@ -268,7 +268,7 @@ jQuery(document).on 'click', 'a.submit-feedback:not(.disabled)', ->
 # ------------
 
 # 在选项详情界面增加选项
-jQuery(document).on 'click', '.page-topic .topic-new-option a.new', ->
+jQuery(document).on 'click', '.page-topic .topic-new-option a.new:not(.disabled)', ->
   console.debug jQuery('.new-option-overlay')
   jQuery('.new-option-overlay').addClass('show')
 
@@ -279,8 +279,15 @@ jQuery(document).on 'click', '.new-option-overlay a.ok:not(.disabled)', ->
   text = jQuery('.new-option-overlay textarea').val()
   $option = jQuery('a.option').first().clone()
   $option.find('.text').text text
+  $option.addClass('active')
   jQuery('.topic-options').append $option
   jQuery('.new-option-overlay').removeClass('show')
+  refresh_voted_options()
+
+  jQuery('.page-topic .topic-new-option a.new')
+    .addClass('disabled')
+    .find('i').hide().end()
+    .find('span').text '只能补充一个，已经补充过了'
 
 jQuery(document).on 'input', '.new-option-overlay textarea', ->
   if is_field_empty jQuery('.new-option-overlay textarea')

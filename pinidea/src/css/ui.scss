@@ -634,6 +634,13 @@ body.auth {
       &:hover {
         box-shadow: $common-box-shadow-inset;
       }
+      &.disabled {
+        background-color: #eee;
+        color: #ccc;
+        border: solid 1px #ddd;
+        cursor: default;
+        box-shadow: none !important;
+      }
     }
   }
 
@@ -646,6 +653,9 @@ body.auth {
       box-shadow: $common-box-shadow;
       &:hover {
         box-shadow: $common-box-shadow-inset;
+      }
+      &.disabled {
+        box-shadow: none !important;
       }
     }
   }
