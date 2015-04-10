@@ -233,7 +233,7 @@ body {
   a {
     outline: 0 none !important;
   }
-  textarea {resize: none;}
+  textarea {resize: none; padding: 6px;}
 }
 body.auth {
   background-color: #222737;
@@ -514,38 +514,62 @@ body.auth {
 }
 
 .page-topic {
-  $biw: 40px;
+  position: fixed;
+  top:0;left:0;right:0;bottom:0px;
 
+  .header {
+    position: fixed;
+    top:0;left:0;right:0;height:50px;
+    box-shadow: $common-box-shadow;
+    background-color: $detail-header-bg-color;
+    z-index: 1;
+    a.back {
+      position: absolute;
+      @include height(50px);
+      top:0;padding-left:15px;padding-right:15px;
+      left:0;
+      color: #999;
+      text-decoration: none;
+      font-size: 16px;
+      i {position: relative;top:1px;}
+    }
+    .title {
+      text-align: center;
+      @include height(50px);
+      font-size: 16px;
+    }
+    a.share {
+      position: absolute;
+      @include height(50px);
+      top:0;padding-left:15px;padding-right:15px;
+      right:0;
+      color: #999;
+      text-decoration: none;
+      font-size: 16px;
+      i {position: relative;top:1px;}
+    }
+  }
+
+  .so {
+    position: fixed;
+    top:50px;left:0;right:0;bottom:0px;
+    padding-top: 10px;
+    overflow-y: auto;
+  }
+
+  $biw: 40px;
   .topic-header {
     background-color: $detail-header-bg-color;
-    margin-left: -$gpd;
-    margin-right: -$gpd;
     min-height: $biw + $gpd * 2;
     position: relative;
     box-shadow: $common-box-shadow;
     overflow: hidden;
 
-    a.back {
-      position: absolute;
-      @include circle($biw);
-      font-size: $top-nav-icon-size;
-      text-decoration: none;
-      top: $gpd;
-      left: $gpd / 2;
-      color: $base-color;
-      i {
-        position: relative;
-        left: -1px;
-      }
-    }
-
     h2.title {
-      margin:0;padding:0;
-      margin-left: $biw + $gpd * 2 - $gpd;
-      font-size:20px;
       line-height: 30px;
-      padding-top: $gpd + ($biw - 30px) / 2 - 1px;
-      padding-bottom: $gpd + ($biw - 30px) / 2 + 1px;
+      margin:0;padding:0;
+      font-size:20px;
+      padding: 15px;
     }
 
     .infocard.product {
@@ -554,18 +578,19 @@ body.auth {
   }
 
   .topic-options {
+    margin-top: 10px;
+    box-shadow: $common-box-shadow;
+
     a.option {
       display: block;
       background-color: #FFF;
-      margin-top: 5px;
-      margin-left: -$gpd;
-      margin-right: -$gpd;
       padding: $gpd;
       padding-right: $gpd + 40px + $gpd;
       position: relative;
-      box-shadow: $common-box-shadow;
       text-decoration: none;
       color: #444;
+      border-bottom: solid 1px #ddd;
+      &:last-child {border-bottom: 0 none !important;}
 
       .text {
         height:40px;line-height:20px;
@@ -592,20 +617,81 @@ body.auth {
         box-shadow: none;
         .icon.i0 {opacity:0;@include transform(scale(0.1))};
         .icon.i1 {opacity:1;@include transform(scale(1))};
+        border-bottom: solid 1px rgba(white, 0.5);
       }
     }
   }
 
   .topic-new-option {
-    margin-top: $gpd;
-    margin-bottom: $gpd;
+    margin-top: 10px;
+    margin-bottom: 10px;
     a.new {
       display: block;
       height:50px;line-height:50px;
       background-color: #FFEEBE;
       color: #A57900;
-      border-radius:100px;
       box-shadow: $common-box-shadow;
+      &:hover {
+        box-shadow: $common-box-shadow-inset;
+      }
+    }
+  }
+
+  .vote-done {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    a.done {
+      display: block;
+      height:50px;line-height:50px;
+      box-shadow: $common-box-shadow;
+      &:hover {
+        box-shadow: $common-box-shadow-inset;
+      }
+    }
+  }
+
+  .new-option-overlay, .share-overlay {
+    background-color: rgba(black, 0.5);
+    position: fixed;
+    top:0;left:0;right:0;bottom:0;
+    padding: 5px;
+    opacity: 0;
+    pointer-events: none;
+    @include default-transition($time: 0.5s);
+    z-index:100;
+
+    &.show {
+      opacity: 1;
+      pointer-events: all;
+      .form {margin-top: 0;}
+    }
+
+    .form {
+      @include default-transition;
+      background-color: #FFF;
+      padding: 15px;
+      margin-top: -50px;
+      label {
+        margin-bottom: 10px;
+        font-size: 16px;
+        color: #666;
+        font-weight: normal;
+      }
+      textarea {
+        padding: 6px;
+        font-size: 16px;
+        margin-bottom: 15px;
+      }
+      .submits {
+        text-align: right;
+        a.cancel, a.ok {
+          font-size: 16px;text-decoration: none;
+          margin-left: 15px;
+        }
+        a.cancel {color: #999;}
+        a.ok {color: $area-success;}
+        a.ok.disabled {opacity: 0.5;}
+      }
     }
   }
 }
@@ -881,6 +967,15 @@ body.auth {
   .go {
     text-align: center;
     margin-bottom: 30px;
+  }
+  .loading {
+    font-size: 32px;
+    text-align: center;
+    padding:15px;
+    i {
+      @include height(40px);
+      color: #999;
+    }
   }
 }
 

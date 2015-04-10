@@ -1,5 +1,5 @@
 (function() {
-  var SearchPage, TopicForm, is_field_empty;
+  var SearchPage, TopicForm, is_field_empty, refresh_voted_options;
 
   jQuery(document).on('ready page:load', function() {
     return console.debug('loaded');
@@ -28,10 +28,6 @@
     var back_url;
     back_url = jQuery('[data-back]').data('back');
     return jQuery(".layout-header .back").attr('href', back_url);
-  });
-
-  jQuery(document).on('click', '.topic-options .option', function() {
-    return jQuery(this).toggleClass('active');
   });
 
   jQuery(document).on('click', '.footer-nav .item.new', function() {
@@ -310,6 +306,65 @@
   jQuery(document).on('click', 'a.submit-feedback:not(.disabled)', function() {
     jQuery('.feedback .form').hide();
     return jQuery('.feedback .success').fadeIn();
+  });
+
+  jQuery(document).on('click', '.page-topic .topic-new-option a.new', function() {
+    console.debug(jQuery('.new-option-overlay'));
+    return jQuery('.new-option-overlay').addClass('show');
+  });
+
+  jQuery(document).on('click', '.new-option-overlay a.cancel', function() {
+    return jQuery('.new-option-overlay').removeClass('show');
+  });
+
+  jQuery(document).on('click', '.new-option-overlay a.ok:not(.disabled)', function() {
+    var $option, text;
+    text = jQuery('.new-option-overlay textarea').val();
+    $option = jQuery('a.option').first().clone();
+    $option.find('.text').text(text);
+    jQuery('.topic-options').append($option);
+    return jQuery('.new-option-overlay').removeClass('show');
+  });
+
+  jQuery(document).on('input', '.new-option-overlay textarea', function() {
+    if (is_field_empty(jQuery('.new-option-overlay textarea'))) {
+      return jQuery('.new-option-overlay a.ok').addClass('disabled');
+    } else {
+      return jQuery('.new-option-overlay a.ok').removeClass('disabled');
+    }
+  });
+
+  jQuery(document).on('click', '.page-topic a.share', function() {
+    return jQuery('.share-overlay').addClass('show');
+  });
+
+  jQuery(document).on('click', '.share-overlay a.cancel', function() {
+    return jQuery('.share-overlay').removeClass('show');
+  });
+
+  jQuery(document).on('click', '.vote-done a.done:not(.disabled)', function() {
+    return Turbolinks.visit('home-3-vote-done.html');
+  });
+
+  refresh_voted_options = function() {
+    if (jQuery('.topic-options .option.active').length > 0) {
+      return jQuery('.vote-done a.done').removeClass('disabled');
+    } else {
+      return jQuery('.vote-done a.done').addClass('disabled');
+    }
+  };
+
+  jQuery(document).on('click', '.topic-options .option', function() {
+    jQuery(this).toggleClass('active');
+    return refresh_voted_options();
+  });
+
+  jQuery(document).on('ready page:load', function() {
+    if (jQuery('.page-vote-done').length) {
+      return setTimeout(function() {
+        return Turbolinks.visit('home-2-topic.html');
+      }, 1000);
+    }
   });
 
 }).call(this);
