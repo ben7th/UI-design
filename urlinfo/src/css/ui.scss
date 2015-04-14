@@ -1,0 +1,89 @@
+$futura-font-path: "../../../lily/fonts/futura";
+$fa-font-path: "../../../lily/fonts"; // 自行修改字体路径
+
+@import "../../../lily/css/lily.scss";
+
+// --------------------------
+
+$gpd : $grid-gap / 2;
+
+@mixin height($h) {
+  height: $h; line-height: $h;
+}
+
+@mixin square($w) {
+  @include height($w);
+  width: $w;
+  text-align: center;
+  display: block;
+}
+
+@mixin circle($w) {
+  @include square($w);
+  border-radius: 1000px;
+}
+
+@mixin default-transition($time: .2s) {
+  @include transition(all ease $time);
+}
+
+body {
+  font-size: 16px;
+  textarea {
+    resize: none;
+  }
+}
+
+.page-parser {
+  h3 {
+    margin-top: $gpd;
+    margin-bottom: $gpd * 2;
+  }
+
+  .form {
+    position: fixed;
+    top: 0; left: 0;
+    width: percentage(5/12);
+    box-sizing: border-box;
+    padding: $gpd;
+    textarea {
+      font-size: 16px;
+    }
+    .fields {
+      margin-bottom: $gpd;
+    }
+    .submits {
+      margin-bottom: $gpd * 2;
+    }
+    .result {
+      .image {
+        img {width:150px;float:left;}
+      }
+      .data {
+        margin-left: 150px + $gpd;
+        .item {
+          .k {
+            float:left;
+            width:90px;
+            color:#999;
+            text-align:right;
+          }
+          .v {margin-left: 100px;}
+          margin-bottom: 10px;
+        }
+        .clear {
+          margin-top: 30px;
+        }
+      }
+    }
+  }
+  .support-info {
+    padding: $gpd;
+    margin-left: percentage(5/12);
+    word-break: break-all;
+    box-sizing: border-box;
+    .support {
+      margin-bottom: $gpd;
+    }
+  }
+}

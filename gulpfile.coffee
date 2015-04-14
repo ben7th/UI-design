@@ -66,3 +66,58 @@ gulp.task 'pinidea-watch', ['pinidea-build'], ->
   gulp.watch pinidea.src.css, ['pinidea-css']
   gulp.watch pinidea.src.html, ['pinidea-html']
   gulp.watch pinidea.src.partial, ['pinidea-html']
+
+# -------------------
+# urlinfo
+urlinfo =
+  src: 
+    js:   'urlinfo/src/js/**/*.coffee'
+    css:  'urlinfo/src/css/**/*.scss'
+    html: 'urlinfo/src/html/**/*.haml'
+    partial: 'urlinfo/src/partial/**/*.haml'
+  dist:
+    js:   'urlinfo/dist/js'
+    css:  'urlinfo/dist/css'
+    html: 'urlinfo/dist/html'
+
+gulp.task 'urlinfo-js', ->
+  gulp.src urlinfo.src.js
+    .pipe plumber()
+    .pipe smaps.init()
+    .pipe coffee()
+    .pipe smaps.write('../maps')
+    .pipe gulp.dest(urlinfo.dist.js)
+
+gulp.task 'urlinfo-css', ->
+  gulp.src urlinfo.src.css
+    .pipe sass()
+    .on 'error', (err)->
+      file = err.message.match(/^error\s([\w\.]*)\s/)[1]
+      util.log [
+        err.plugin,
+        util.colors.red file
+        err.message
+      ].join ' '
+    .pipe concat('ui.css')
+    .pipe gulp.dest(urlinfo.dist.css)
+
+gulp.task 'urlinfo-html', ->
+  gulp.src urlinfo.src.html
+    .pipe haml()
+    .on 'error', (err)->
+      util.log [
+        err.plugin,
+        util.colors.red err.message
+        err.message
+      ].join ' '
+    .pipe gulp.dest(urlinfo.dist.html)
+
+gulp.task 'urlinfo-build', [
+  'urlinfo-js', 'urlinfo-css', 'urlinfo-html'
+]
+
+gulp.task 'urlinfo-watch', ['urlinfo-build'], ->
+  gulp.watch urlinfo.src.js, ['urlinfo-js']
+  gulp.watch urlinfo.src.css, ['urlinfo-css']
+  gulp.watch urlinfo.src.html, ['urlinfo-html']
+  gulp.watch urlinfo.src.partial, ['urlinfo-html']

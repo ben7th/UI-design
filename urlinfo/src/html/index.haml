@@ -1,0 +1,52 @@
+= Haml::Engine.new(File.read "#{Dir.pwd}/urlinfo/src/partial/app.haml").render do
+  - capture_haml do
+    .page-parser
+      .form
+        %h3 urlinfo
+        .fields
+          %textarea.form-control{:placeholder => '请输入网页地址', :rows => 5}
+        .submits
+          %a.do-submit.btn.btn-pill.btn-flat-success.disabled{:href => 'javascript:;'}
+            %span 尝试分析
+        .result{:style => 'display:none;'}
+          .image
+            %a{:href => 'http://gi1.md.alicdn.com/imgextra/i1/T1d0UbFctcXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg', :target => '_blank'}
+              %img{:src => 'http://gi1.md.alicdn.com/imgextra/i1/T1d0UbFctcXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg'}
+          .data
+            .item
+              .k 图片网址： 
+              .v http://gi1.md.alicdn.com/imgextra/i1/T1d0UbFctcXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg
+            .item
+              .k 名称：
+              .v 可爱大黄鸭公仔毛绒玩具小鸭子创意抱枕靠垫布娃娃生日礼物送女生
+            .item
+              .k 价格：
+              .v 9.9
+            .item
+              .k 地理位置：
+              .v 上海
+            .item
+              .k 作者：
+              .v N/A
+            .item
+              .k 解析方式：
+              .v 分析网页 HTML / API / 获取基本信息
+
+            .clear
+              %a.do-clear.btn.btn-pill.btn-flat-success{:href => 'javascript:;'} 
+                %span 清除当前网址缓存
+
+      .support-info
+        %h3 supports
+        .support
+          %a{:href => 'http://www.tmall.com/'} 天猫
+          %br
+          %a{:href => 'http://markdown.4ye.me/z1ei2y6c'} http://markdown.4ye.me/z1ei2y6c
+          %br
+          %a{:href => 'http://detail.tmall.com/item.htm?id=15593325475&spm=a1z0k.7385961.1997985097.d4918997.lTDqPh&_u=rkkbfj13db&mt='} http://detail.tmall.com/item.htm?id=15593325475&spm=a1z0k.7385961.1997985097.d4918997.lTDqPh&_u=rkkbfj13db&mt=
+        .support
+          %a{:href => 'http://www.jd.com/'} 京东
+          %br
+          %a{:href => 'http://markdown.4ye.me/klxVBaYz'} http://markdown.4ye.me/klxVBaYz
+          %br
+          %a{:href => 'http://item.jd.com/1082403.html'} http://item.jd.com/1082403.html
