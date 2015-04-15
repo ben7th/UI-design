@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang='zh'>
+  <head>
+    <title>pinidea</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <link href='../css/ui.css' rel='stylesheet'>
+    <script src='../../../lib/jquery-2.1.1.min.js' type='text/javascript'></script>
+    <script src='../js/turbolinks.js' type='text/javascript'></script>
+    <script src='../js/ui.js' type='text/javascript'></script>
+  </head>
+  <body>
+    <div class='layout-content'>
+      <div class='container-full'>
+        <div class='row'>
+          <div class='content-inner col-pad-12'>
+            <div class='page-new-topic'>
+              <div class='topbar'>
+                <a class='back' href='add-poll-3-infocards.html'>
+                  <i class='fa fa-chevron-left'></i>
+                </a>
+                <div class='steps'>
+                  <div class='step active' data-step='1'>
+                    <span>
+                      <div class='no'>1</div>
+                      <i class='fa fa-check'></i>
+                    </span>
+                  </div>
+                  <div class='step' data-step='2'>
+                    <span>
+                      <div class='no'>2</div>
+                      <i class='fa fa-check'></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class='form'>
+                <div class='part tdesc' data-step='1'>
+                  <div class='infocard product'>
+                    <div class='product-logo'>
+                      <img src='http://img.teamkn.com/i/UXZJ978F.png'>
+                    </div>
+                    <div class='data'>
+                      <div class='product-name'>有道云笔记</div>
+                      <div class='product-desc'>有道云笔记是个人与团队的线上资料库，信息全平台覆盖， 随时随地、随心访问所有资料。团队成员在这里高效协作，无缝沟通。网易出品，安全可靠。2500万用户的选择。</div>
+                    </div>
+                  </div>
+                  <div class='fields'>
+                    <label>请输入议题描述</label>
+                    <textarea class='form-control tdesc' placeholder='有什么事情想知道大家的看法呢？' rows='5'></textarea>
+                  </div>
+                  <div class='submits'>
+                    <a class='next disabled' href='javascript:;'>
+                      <span>下一步</span>
+                      <i class='fa fa-arrow-right'></i>
+                    </a>
+                  </div>
+                </div>
+                <div class='part' data-step='2' style='display:none;'>
+                  <div class='fields'>
+                    <label>请输入预置选项（至少两个）</label>
+                    <div class='item-inputs'>
+                      <div class='ipt'>
+                        <input class='form-control' placeholder='选项 1'>
+                        <a class='delete disabled' href='javascript:;'>
+                          <i class='fa fa-times'></i>
+                        </a>
+                      </div>
+                      <div class='ipt'>
+                        <input class='form-control' placeholder='选项 2'>
+                        <a class='delete disabled' href='javascript:;'>
+                          <i class='fa fa-times'></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='submits'>
+                    <a class='prev' href='javascript:;'>
+                      <i class='fa fa-arrow-left'></i>
+                      <span>上一步</span>
+                    </a>
+                    <a class='additem' href='javascript:;'>
+                      <i class='fa fa-plus'></i>
+                    </a>
+                    <div class='additem-text'>
+                      <i class='fa fa-arrow-up'></i>
+                      <span>按这里增加选项</span>
+                    </div>
+                    <a class='done disabled' href='add-poll-1-created.html'>
+                      <span>完成</span>
+                      <i class='fa fa-check'></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

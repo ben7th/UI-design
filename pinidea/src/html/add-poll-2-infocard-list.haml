@@ -1,0 +1,15 @@
+= Haml::Engine.new(File.read "#{Dir.pwd}/pinidea/src/partial/detail.haml").render do
+  - capture_haml do
+    .page-infocard-list
+      .header
+        %a.back{:href => 'home-1-index.html'}
+          %i.fa.fa-chevron-left
+        .title 分类点评
+      .info-detail
+        .categories
+          %a.category{:href => 'add-poll-3-infocards.html'}
+            %i.fa.fa-mobile{:style => 'color:#5BB4DA;'}
+            %span 应用软件
+          %a.category{:href => 'add-poll-3-infocards.html'}
+            %i.fa.fa-coffee{:style => 'color:#F26D5F'}
+            %span 文化娱乐

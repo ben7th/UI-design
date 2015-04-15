@@ -1,0 +1,57 @@
+= Haml::Engine.new(File.read "#{Dir.pwd}/pinidea/src/partial/detail.haml").render do
+  - capture_haml do
+    .page-new-topic
+      .topbar
+        %a.back{:href => 'add-poll-3-infocards.html'}
+          %i.fa.fa-chevron-left
+        .steps
+          .step.active{:data => {:step => 1}}
+            %span 
+              .no 1
+              %i.fa.fa-check
+          .step{:data => {:step => 2}}
+            %span 
+              .no 2
+              %i.fa.fa-check
+
+      .form
+        .part.tdesc{:data => {:step => 1}}
+          .infocard.product
+            .product-logo
+              %img{:src => 'http://img.teamkn.com/i/UXZJ978F.png'}
+            .data
+              .product-name 有道云笔记
+              .product-desc 有道云笔记是个人与团队的线上资料库，信息全平台覆盖， 随时随地、随心访问所有资料。团队成员在这里高效协作，无缝沟通。网易出品，安全可靠。2500万用户的选择。
+          .fields
+            %label 请输入议题描述
+            %textarea.form-control.tdesc{:placeholder => '有什么事情想知道大家的看法呢？', :rows => 5}
+          .submits
+            %a.next.disabled{:href => 'javascript:;'}
+              %span 下一步
+              %i.fa.fa-arrow-right
+
+        .part{:style => 'display:none;', :data => {:step => 2}}
+          .fields
+            %label 请输入预置选项（至少两个）
+            .item-inputs
+              .ipt
+                %input.form-control{:placeholder => '选项 1'}
+                %a.delete.disabled{:href => 'javascript:;'}
+                  %i.fa.fa-times
+              .ipt
+                %input.form-control{:placeholder => '选项 2'}
+                %a.delete.disabled{:href => 'javascript:;'}
+                  %i.fa.fa-times
+          .submits
+            %a.prev{:href => 'javascript:;'}
+              %i.fa.fa-arrow-left
+              %span 上一步
+            %a.additem{:href => 'javascript:;'}
+              %i.fa.fa-plus
+            .additem-text
+              %i.fa.fa-arrow-up
+              %span 按这里增加选项
+             
+            %a.done.disabled{:href => 'add-poll-1-created.html'}
+              %span 完成
+              %i.fa.fa-check

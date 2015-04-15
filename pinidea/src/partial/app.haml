@@ -41,10 +41,14 @@
       .tips 请选择要创建的议题类型
       .items
         .item
-          %a.common{:href => 'add-poll-0-new-common.html'}
-            %i.fa.fa-pencil
+          %a.text{:href => 'add-poll-0-new-common.html'}
+            %i.fa.fa-edit
           %span.t 普通议题
         .item
-          %a.good{:href => 'add-poll-0-new-good.html'}
+          %a.comment{:href => 'add-poll-0-new-good.html'}
             %i.fa.fa-rocket
-          %span.t 分享点评
+          %span.t 网址分享
+        .item
+          %a.weburl{:href => 'add-poll-2-infocard-list.html'}
+            %i.fa.fa-star
+          %span.t 分类点评

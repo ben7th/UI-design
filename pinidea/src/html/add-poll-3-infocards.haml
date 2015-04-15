@@ -1,0 +1,27 @@
+= Haml::Engine.new(File.read "#{Dir.pwd}/pinidea/src/partial/detail.haml").render do
+  - capture_haml do
+    .page-infocard-list
+      .header
+        %a.back{:href => 'add-poll-2-infocard-list.html'}
+          %i.fa.fa-chevron-left
+        .title 应用软件
+      .info-detail
+        .infocards
+          %a.infocard.product{:href => 'add-poll-0-new-comment.html'}
+            .product-logo
+              %img{:src => 'http://img.teamkn.com/i/fyU5ZbBc.png'}
+            .data
+              .product-name 扇贝单词
+              .product-desc 这不是一款帮你“背”单词的软件，而是帮你“记住”单词的软件。只要能够完成一天的任务，你就能感受到实际的效果！
+          %a.infocard.product{:href => 'add-poll-0-new-comment.html'}
+            .product-logo
+              %img{:src => 'http://img.teamkn.com/i/VpJrlijt.png'}
+            .data
+              .product-name 新浪微博
+              .product-desc 随时随地分享身边的新鲜事儿
+          %a.infocard.product{:href => 'add-poll-0-new-comment.html'}
+            .product-logo
+              %img{:src => 'http://img.teamkn.com/i/UXZJ978F.png'}
+            .data
+              .product-name 有道云笔记
+              .product-desc 有道云笔记是个人与团队的线上资料库，信息全平台覆盖， 随时随地、随心访问所有资料。团队成员在这里高效协作，无缝沟通。网易出品，安全可靠。2500万用户的选择。
