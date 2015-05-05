@@ -358,6 +358,9 @@
   };
 
   jQuery(document).on('click', '.topic-options .option', function() {
+    if (jQuery(this).hasClass('tiny') && !jQuery(this).hasClass('active')) {
+      jQuery('.topic-options .option.tiny').removeClass('active');
+    }
     jQuery(this).toggleClass('active');
     return refresh_voted_options();
   });

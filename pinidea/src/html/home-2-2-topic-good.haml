@@ -1,0 +1,80 @@
+= Haml::Engine.new(File.read "#{Dir.pwd}/pinidea/src/partial/detail.haml").render do
+  - capture_haml do
+    .page-topic{:data => {:nav => :explore, :title => '议题详情'}}
+      .header
+        %a.back{:href => 'home-1-index.html'}
+          %i.fa.fa-chevron-left
+        .title 为议题投票
+        %a.share{:href => 'javascript:;'}
+          %i.fa.fa-share
+
+      .so
+        .topic-header
+          %h2.title 你觉得一度赞方便面口味怎样？
+          .infocard.product
+            .product-logo
+              %img{:src => 'http://img.teamkn.com/i/WDB7GDLK.png'}
+            .data
+              .product-name 【袋装】台湾泡面满汉大餐方便面麻辣葱烧珍味牛肉面满汉全席整箱
+              .product-price ￥7.50
+
+        .topic-options
+          %a.option.tiny{:href => 'javascript:;'}
+            %i.fa.fa-thumbs-up
+          %a.option.tiny{:href => 'javascript:;'}
+            %i.fa.fa-meh-o
+          %a.option.tiny{:href => 'javascript:;'}
+            %i.fa.fa-thumbs-down
+
+        .topic-options
+          %a.option{:href => 'javascript:;'}
+            .text 没吃过诶
+            .icon.i0
+              %i.fa.fa-comment-o
+            .icon.i1
+              %i.fa.fa-check
+          %a.option{:href => 'javascript:;'}
+            .text 太油了。
+            .icon.i0
+              %i.fa.fa-comment-o
+            .icon.i1
+              %i.fa.fa-check
+          %a.option{:href => 'javascript:;'}
+            .text 挺好的！比一般方便面强！
+            .icon.i0
+              %i.fa.fa-comment-o
+            .icon.i1
+              %i.fa.fa-check
+
+        .topic-new-option
+          %a.new.btn.btn-flat-success.btn-block{:href => 'javascript:;'}
+            %i.fa.fa-plus
+            %span 补充一个选项
+
+        .vote-done
+          %a.done.btn.btn-flat-success.btn-block.disabled{:href => 'javascript:;'}
+            %i.fa.fa-check
+            %span 投完了
+
+      .new-option-overlay
+        .form
+          .fields
+            %label 补充新选项
+            %textarea.form-control{:placeholder => '输入选项内容', :rows => 3}
+          .submits
+            %a.cancel{:href => 'javascript:;'}
+              %i.fa.fa-times
+              %span 取消
+            %a.ok.disabled{:href => 'javascript:;'}
+              %i.fa.fa-check
+              %span 确定
+
+      .share-overlay
+        .form
+          .fields
+            %label 分享到 …
+            .s 这里集成到最后再做
+          .submits
+            %a.cancel{:href => 'javascript:;'}
+              %i.fa.fa-times
+              %span 取消

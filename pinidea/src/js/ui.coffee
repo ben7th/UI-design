@@ -316,6 +316,9 @@ refresh_voted_options = ->
 
 # 投票选项点击
 jQuery(document).on 'click', '.topic-options .option', ->
+  if jQuery(this).hasClass('tiny') and not jQuery(this).hasClass('active')
+    jQuery('.topic-options .option.tiny').removeClass('active')
+
   jQuery(this).toggleClass 'active'
   refresh_voted_options()
 
