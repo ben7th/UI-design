@@ -154,7 +154,7 @@ class ImageGrid
           @$el.addClass 'end'
 
 
-jQuery ->
+jQuery(document).on 'ready page:load', ->
   if jQuery('.grid .images').length
     ig = new ImageGrid jQuery('.grid .images'), {
       # layout: FlowLayout

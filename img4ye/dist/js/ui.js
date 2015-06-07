@@ -210,7 +210,7 @@
 
   })();
 
-  jQuery(function() {
+  jQuery(document).on('ready page:load', function() {
     var ig;
     if (jQuery('.grid .images').length) {
       ig = new ImageGrid(jQuery('.grid .images'), {
