@@ -172,3 +172,11 @@ jQuery(document).on 'ready page:load', ->
   # if jQuery('.page-image-show').length
   #   jQuery(document).delegate 'input.url', 'click', ->
   #     jQuery(this).select()
+
+jQuery(document).on 'click', 'a.btn-upload', ->
+  $panel = jQuery('.upload-panel')
+  $panel.addClass('opened')
+
+jQuery(document).on 'click', 'a.close-panel', ->
+  $panel = jQuery('.upload-panel')
+  $panel.removeClass('opened')

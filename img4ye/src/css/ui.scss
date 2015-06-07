@@ -428,5 +428,67 @@ body.app .page-dashboard {
         }
       }
     }
+    .upload-panel {
+      background-color: rgba(black, 0.5);
+      position: absolute;
+      top: $control-height;
+      left: 0; right: 0; bottom: 0;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      @include transition(all 0.6s);
+
+      .panel {
+        margin-top: -100%;
+        border-top: dashed 2px #ddd;
+        position: absolute;
+        top:0; left:0; right: 0;
+        background-color: #f1f1f1;
+        box-shadow:0 0 10px black;
+        @include transition(all 0.6s);
+        .pbox {
+          padding-bottom:50%;
+          position: relative;
+
+          a.close-panel {
+            $w: 60px;
+            box-sizing: border-box;
+            position: absolute;
+            width: $w; height: $w; line-height: $w;
+            background-color: #444;
+            border-radius: 100px;
+            bottom: -$w/2;
+            left: 50%; margin-left: -$w/2;
+            border: solid 4px white;
+            opacity: 0;
+            i {
+              position: absolute;
+              top: 0px;left:0px;right:0px;bottom:0px;
+              line-height: 52px;
+              color: white;
+              text-align: center;
+              font-size: 36px;
+            }
+            box-shadow:0 0 10px rgba(black, 0.5);
+            @include default-transition;
+            &:hover {
+              background-color: #222;
+              box-shadow:0 0 20px rgba(black, 1);
+            }
+          }
+        }
+      }
+
+      &.opened {
+        opacity: 1;
+        pointer-events: all;
+        .panel {
+          margin-top: 0;
+          a.close-panel {
+            opacity: 1;
+          }
+        }
+      }
+    }
   }
 }

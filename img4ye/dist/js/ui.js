@@ -224,6 +224,18 @@
     }
   });
 
+  jQuery(document).on('click', 'a.btn-upload', function() {
+    var $panel;
+    $panel = jQuery('.upload-panel');
+    return $panel.addClass('opened');
+  });
+
+  jQuery(document).on('click', 'a.close-panel', function() {
+    var $panel;
+    $panel = jQuery('.upload-panel');
+    return $panel.removeClass('opened');
+  });
+
 }).call(this);
 
 //# sourceMappingURL=../maps/ui.js.map
