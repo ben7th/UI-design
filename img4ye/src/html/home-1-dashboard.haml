@@ -1,0 +1,126 @@
+= Haml::Engine.new(File.read "#{Dir.pwd}/img4ye/src/partial/app.html.haml").render do
+  - capture_haml do
+    .page-dashboard
+      .header
+        .container
+          .row
+            .col-pad-12
+              .logo 
+                %span.s1> img
+                %span.s2> 4ye
+              .top-control
+                .user
+                  .avatar
+                    %img{:src => 'http://img.teamkn.com/i/RTB15zIX.png'}
+                  .name 洋气书生
+                .config
+                  %a.signout{:href => 'home-0-auth.html'}
+                    %i.fa.fa-power-off
+                    %span 退出
+      .main
+        .control
+          .container
+            .row
+              .upload-control
+                %a.btn-upload{:href => 'javascript:;'}
+                  %i.fa.fa-upload
+                .helpinfo
+                  .h 点击上传本地图片
+                  .h 
+                    %span 或者 按下 
+                    %span.k CTRL 
+                    %span + 
+                    %span.k V 
+                    %span 粘贴剪贴板里的图片
+                  .h 或者 拖拽图片文件到浏览器
+              .stat
+                .sts
+                  .st.uploaded
+                    %span.c 15
+                    %span.t 张图片，
+                    %span.c 32.63 MB
+                    %span.t 空间占用，
+                    %span.c 3 
+                    %span.t 个尺寸配置
+                  %a.btn.btn-pill.btn-flat-success.btn-mini{:href => 'javascript:;'}
+                    %i.fa.fa-cog
+                    %span 编辑尺寸配置
+
+
+        .opbar
+          .container
+            .row
+              .col-pad-12
+                %a.check{:href => 'javascript:;'}
+                  .cb
+                    %i.fa.fa-check
+                  %span 选择所有图片
+                %a.bttn.copylink.disabled{:href => 'javascript:;'}
+                  %i.fa.fa-copy
+                  %span 复制链接
+                %a.bttn.download.disabled{:href => 'javascript:;'}
+                  %i.fa.fa-download
+                  %span 下载
+                %a.bttn.delete.disabled{:href => 'javascript:;'}
+                  %i.fa.fa-trash
+                  %span 删除
+
+        .grid.nano
+          .nano-content
+            .container
+              .row
+                .col-pad-12
+                  .blank{:style => 'display:none;'}
+                    .ac
+                    .s 还没有上传过图片噢 ~
+
+                  - # 集成注意：load-more-url 应填写加载下一页用到的地址
+                  - # 图片数组要改成从控制器层获取
+                  .images{:data => {:'load-more-url' => 'home-1-dashboard.html'}}
+                    :ruby
+                      Image = Struct.new(:key, :ave, :width, :height) do
+                        def url
+                          "http://img.teamkn.com/i/#{key}"
+                        end
+                      end
+
+                      arr = [
+                        Image.new('i4Wbvapm.png', '#482A19', 1024, 680),
+                        Image.new('wx8Bq1E6.png', '#900A06', 1024, 878),
+                        Image.new('tix7qaCf.png', '#563B1E', 640,  426),
+                        Image.new('bymfsoh5.png', '#5A493C', 640,  640),
+                        Image.new('ZMoAbk12.png', '#D0604D', 720,  720),
+                        Image.new('TdDAbHER.png', '#9C7249', 640,  640),
+                        Image.new('yo8613J9.png', '#51371F', 640,  640),
+                        Image.new('X8LhkEPT.png', '#90A872', 640,  640),
+                        Image.new('gjhLX2HZ.png', '#4E331D', 600,  525),
+                        Image.new('NjbKPqT2.png', '#BA7074', 720,  720),
+                        Image.new('i6FYzfMS.png', '#80632D', 640,  640),
+                        Image.new('qZnvgddO.jpg', '#435464', 477,  675),
+                        Image.new('C8p1BZ3m.jpg', '#40BA9F', 477,  467),
+                        Image.new('sFokcStZ.jpg', '#2C3338', 477,  675),
+                        Image.new('D4Tkko8b.jpg', '#BA7A68', 477,  467),
+                        Image.new('GvadbyxR.jpg', '#80632D', 477,  467),
+                        Image.new('wVAEKa0F.jpg', '#676968', 477,  467),
+                        Image.new('DhxsQ6lq.jpg', '#656360', 477,  467),
+                        Image.new('BqRxa0pO.jpg', '#020203', 477,  467),
+                        Image.new('QQXGPAWH.jpg', '#0D1D28', 477,  675),
+                        Image.new('CwifcMsv.jpg', '#3E3C36', 477,  467),
+                        Image.new('CcwraYrJ.jpg', '#4C6861', 477,  467),
+                        Image.new('BqRxa0pO.jpg', '#020203', 477,  467),
+                        Image.new('bWwThUfi.jpg', '#8E644D', 477,  675),
+                        Image.new('sEmGzY2U.png', '#E2D67C', 600,  400),
+                        Image.new('o3LntKdn.png', '#FDCC97', 600,  400),
+                        Image.new('ka3r5ZC4.png', '#E59370', 600,  400),
+                        Image.new('ceCnw6QI.png', '#809D65', 600,  400),
+                        Image.new('l4U68CQt.png', '#D69D4E', 600,  400),
+                        Image.new('SCAHZ1j1.png', '#E09C68', 600,  400),
+                        Image.new('h6NjVtue.png', '#AAB87D', 600,  400),
+                        Image.new('dGbioNC8.png', '#CCCC88', 600,  400),
+                        Image.new('qEe9mLR0.png', '#D8AA58', 600,  400),
+                        Image.new('Z7hcm6aq.png', '#9C8582', 300,  300),
+                        Image.new('n5vvUwxB.png', '#CAC6C0', 520,  520),
+                      ]
+
+                    - arr.each do |img|
+                      .image{:data => {:ave => img.ave, :width => img.width, :height => img.height, :url => img.url}}

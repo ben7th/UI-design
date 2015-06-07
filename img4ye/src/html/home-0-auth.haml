@@ -1,0 +1,15 @@
+= Haml::Engine.new(File.read "#{Dir.pwd}/img4ye/src/partial/app.html.haml").render do
+  - capture_haml do
+    .page-auth
+      .header
+        .logo 
+          %span.s1> img
+          %span.s2> 4ye
+        .desc
+          .d0 简单易用的图片保存服务
+          .d1 支持手机，PC 访问
+      .form
+        %a.login{:href => 'home-1-dashboard.html'}
+          %i.fa.fa-weibo
+          %span 通过新浪微博登录
+      .team MINDPIN TEAM, 2015

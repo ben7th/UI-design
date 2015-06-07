@@ -35,7 +35,9 @@ gulp.task 'pinidea-js', ->
 
 gulp.task 'pinidea-css', ->
   gulp.src pinidea.src.css
-    .pipe sass()
+    .pipe sass({
+        "sourcemap=none": true
+    })
     .on 'error', (err)->
       file = err.message.match(/^error\s([\w\.]*)\s/)[1]
       util.log [
@@ -90,7 +92,9 @@ gulp.task 'urlinfo-js', ->
 
 gulp.task 'urlinfo-css', ->
   gulp.src urlinfo.src.css
-    .pipe sass()
+    .pipe sass({
+        "sourcemap=none": true
+    })
     .on 'error', (err)->
       file = err.message.match(/^error\s([\w\.]*)\s/)[1]
       util.log [
@@ -121,3 +125,61 @@ gulp.task 'urlinfo-watch', ['urlinfo-build'], ->
   gulp.watch urlinfo.src.css, ['urlinfo-css']
   gulp.watch urlinfo.src.html, ['urlinfo-html']
   gulp.watch urlinfo.src.partial, ['urlinfo-html']
+
+
+# -------------------
+# img4ye
+img4ye =
+  src: 
+    js:   'img4ye/src/js/**/*.coffee'
+    css:  'img4ye/src/css/**/*.scss'
+    html: 'img4ye/src/html/**/*.haml'
+    partial: 'img4ye/src/partial/**/*.haml'
+  dist:
+    js:   'img4ye/dist/js'
+    css:  'img4ye/dist/css'
+    html: 'img4ye/dist/html'
+
+gulp.task 'img4ye-js', ->
+  gulp.src img4ye.src.js
+    .pipe plumber()
+    .pipe smaps.init()
+    .pipe coffee()
+    .pipe smaps.write('../maps')
+    .pipe gulp.dest(img4ye.dist.js)
+
+gulp.task 'img4ye-css', ->
+  gulp.src img4ye.src.css
+    .pipe sass({
+        "sourcemap=none": true
+    })
+    .on 'error', (err)->
+      file = err.message.match(/^error\s([\w\.]*)\s/)[1]
+      util.log [
+        err.plugin,
+        util.colors.red file
+        err.message
+      ].join ' '
+    .pipe concat('ui.css')
+    .pipe gulp.dest(img4ye.dist.css)
+
+gulp.task 'img4ye-html', ->
+  gulp.src img4ye.src.html
+    .pipe haml()
+    .on 'error', (err)->
+      util.log [
+        err.plugin,
+        util.colors.red err.message
+        err.message
+      ].join ' '
+    .pipe gulp.dest(img4ye.dist.html)
+
+gulp.task 'img4ye-build', [
+  'img4ye-js', 'img4ye-css', 'img4ye-html'
+]
+
+gulp.task 'img4ye-watch', ['img4ye-build'], ->
+  gulp.watch img4ye.src.js, ['img4ye-js']
+  gulp.watch img4ye.src.css, ['img4ye-css']
+  gulp.watch img4ye.src.html, ['img4ye-html']
+  gulp.watch img4ye.src.partial, ['img4ye-html']
