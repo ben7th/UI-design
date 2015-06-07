@@ -218,7 +218,7 @@
         viewport: jQuery('.grid .nano-content')
       });
       ig.render();
-      return jQuery(window).on('resize', function() {
+      return jQuery(window).off('resize').on('resize', function() {
         return ig.render();
       });
     }

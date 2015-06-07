@@ -161,10 +161,13 @@ jQuery(document).on 'ready page:load', ->
       layout: GridLayout
       viewport: jQuery('.grid .nano-content')
     }
+
     ig.render()
 
-    jQuery(window).on 'resize', -> 
-      ig.render()
+    jQuery(window)
+      .off 'resize'
+      .on 'resize', -> 
+        ig.render()
 
   # if jQuery('.page-image-show').length
   #   jQuery(document).delegate 'input.url', 'click', ->

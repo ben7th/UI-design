@@ -126,38 +126,38 @@
     }
 
     GridLayout.prototype.render = function() {
-      return setTimeout((function(_this) {
+      var cols, columns_count, container_width, grid_data, max_height, side_length;
+      container_width = this.host.get_width();
+      columns_count = ~~(container_width / 200);
+      grid_data = Util.spacing_grid_data(container_width, columns_count, this.GRID_SPACING);
+      side_length = grid_data.side_length;
+      cols = Util.array_init(columns_count, (function(_this) {
         return function() {
-          var cols, columns_count, container_width, grid_data, max_height, side_length;
-          container_width = _this.host.get_width();
-          columns_count = ~~(container_width / 200);
-          grid_data = Util.spacing_grid_data(container_width, columns_count, _this.GRID_SPACING);
-          side_length = grid_data.side_length;
-          cols = Util.array_init(columns_count, function() {
-            return {
-              height: _this.GRID_SPACING
-            };
-          });
-          _this.host.each_image(function(idx, image) {
-            var heights, left, top, x;
-            heights = cols.map(function(col) {
-              return col.height;
-            });
-            top = Util.array_min(heights);
-            x = heights.indexOf(top);
-            left = grid_data.positions[x];
-            cols[x].height += side_length + _this.GRID_SPACING;
-            image.pos(left, top, side_length, side_length);
-            return setTimeout(function() {
-              return image.lazy_load();
-            }, 100);
-          });
-          max_height = Util.array_max(cols.map(function(col) {
-            return col.height;
-          }));
-          return _this.host.$el.css('height', max_height + _this.BOTTOM_MARGIN);
+          return {
+            height: _this.GRID_SPACING
+          };
         };
       })(this));
+      this.host.each_image((function(_this) {
+        return function(idx, image) {
+          var heights, left, top, x;
+          heights = cols.map(function(col) {
+            return col.height;
+          });
+          top = Util.array_min(heights);
+          x = heights.indexOf(top);
+          left = grid_data.positions[x];
+          cols[x].height += side_length + _this.GRID_SPACING;
+          image.pos(left, top, side_length, side_length);
+          return setTimeout(function() {
+            return image.lazy_load();
+          }, 100);
+        };
+      })(this));
+      max_height = Util.array_max(cols.map(function(col) {
+        return col.height;
+      }));
+      return this.host.$el.css('height', max_height + this.BOTTOM_MARGIN);
     };
 
     GridLayout.prototype.need_load_more = function() {

@@ -99,28 +99,27 @@ window.GridLayout = class GridLayout
   constructor: (@host)->
 
   render: ->
-    setTimeout =>
-      container_width = @host.get_width()
-      columns_count = ~~(container_width / 200)
-      grid_data = Util.spacing_grid_data container_width, columns_count, @GRID_SPACING
-      side_length = grid_data.side_length
-      cols = Util.array_init columns_count, => 
-        height: @GRID_SPACING
+    container_width = @host.get_width()
+    columns_count = ~~(container_width / 200)
+    grid_data = Util.spacing_grid_data container_width, columns_count, @GRID_SPACING
+    side_length = grid_data.side_length
+    cols = Util.array_init columns_count, => 
+      height: @GRID_SPACING
 
-      @host.each_image (idx, image)=>
-        heights = cols.map (col)-> col.height
-        top = Util.array_min heights
-        x = heights.indexOf top
-        left = grid_data.positions[x]
-        cols[x].height += side_length + @GRID_SPACING
+    @host.each_image (idx, image)=>
+      heights = cols.map (col)-> col.height
+      top = Util.array_min heights
+      x = heights.indexOf top
+      left = grid_data.positions[x]
+      cols[x].height += side_length + @GRID_SPACING
 
-        image.pos left, top, side_length, side_length
-        setTimeout ->
-          image.lazy_load()
-        , 100
+      image.pos left, top, side_length, side_length
+      setTimeout ->
+        image.lazy_load()
+      , 100
 
-      max_height = Util.array_max cols.map (col)-> col.height
-      @host.$el.css 'height', max_height + @BOTTOM_MARGIN
+    max_height = Util.array_max cols.map (col)-> col.height
+    @host.$el.css 'height', max_height + @BOTTOM_MARGIN
 
   # 计算是否满足加载更多图片的条件
   need_load_more: ->
