@@ -5010,6 +5010,12 @@ body.lily-example-doc .example + .code-highlight {
   /* Target only IE7 and IE8 with this hack */
   opacity: 0.99; }
 
+@media (min-width: 1200px) {
+  .container {
+    width: 100%;
+    min-width: 1170px;
+    max-width: 1800px; } }
+
 html, body {
   overflow: hidden; }
 
@@ -5488,10 +5494,17 @@ body.app .page-dashboard {
     width: 150px;
     margin: 0 15px; }
 
+.popbox.template.download .ac {
+  background: url(http://img.teamkn.com/i/iyAond62.png);
+  width: 150px;
+  height: 130px;
+  margin: 0 auto 30px; }
 .popbox.template.download .icon {
   text-align: center;
-  font-size: 64px;
+  font-size: 48px;
   margin-bottom: 30px; }
+  .popbox.template.download .icon span.t {
+    font-family: Futura-Condensed; }
 .popbox.template.download .tip {
   text-align: center;
   line-height: 30px; }

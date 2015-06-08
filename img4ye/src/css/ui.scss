@@ -116,12 +116,12 @@ $gap: 15px;
 
 
 .container {
-  // @include -above(wide) { 
-  //   // width: calc(100% - 300px);
-  //   // width: 100%;
-  //   // min-width: $container-wide;
-  //   // max-width: $container-xwide; 
-  // }
+  @include -above(wide) { 
+    // width: calc(100% - 300px);
+    width: 100%;
+    min-width: $container-wide;
+    max-width: $container-xwide; 
+  }
 }
 
 html, body {
@@ -592,10 +592,18 @@ body.app .page-dashboard {
 }
 
 .popbox.template.download {
+  .ac {
+    background: url(http://img.teamkn.com/i/iyAond62.png);
+    width:150px;height:130px;
+    margin:0 auto 30px;
+  }
   .icon {
     text-align: center;
-    font-size: 64px;
+    font-size: 48px;
     margin-bottom: 30px;
+    span.t {
+      font-family: Futura-Condensed;
+    }
   }
   .tip {
     text-align: center;
