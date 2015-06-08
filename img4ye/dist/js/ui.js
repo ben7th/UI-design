@@ -4,7 +4,7 @@
  */
 
 (function() {
-  var Image, ImageGrid;
+  var Image, ImageGrid, ImageSelector;
 
   Image = (function() {
     function Image($el) {
@@ -69,6 +69,10 @@
       })(this)).appendTo(this.$ibox);
     };
 
+    Image.prototype.remove = function() {
+      return this.$el.remove();
+    };
+
     return Image;
 
   })();
@@ -96,7 +100,7 @@
 
   ImageGrid = (function() {
     function ImageGrid($el, config) {
-      var dom, i, len, ref;
+      var dom, i, len1, ref;
       this.$el = $el;
       if (config == null) {
         config = {};
@@ -106,9 +110,9 @@
       this.$el.css({
         'position': 'relative'
       });
-      this.images = [];
+      this.image_hash = {};
       ref = this.$el.find('.image');
-      for (i = 0, len = ref.length; i < len; i++) {
+      for (i = 0, len1 = ref.length; i < len1; i++) {
         dom = ref[i];
         this.add_image(jQuery(dom));
       }
@@ -131,14 +135,29 @@
       var img;
       img = new Image($image);
       jQuery('<div>').addClass('icheck').appendTo(img.$el);
-      return this.images.push(img);
+      return this.image_hash[$image.data('id')] = img;
+    };
+
+    ImageGrid.prototype.remove_img_ids = function(ids) {
+      var i, id, img, len1;
+      for (i = 0, len1 = ids.length; i < len1; i++) {
+        id = ids[i];
+        img = this.image_hash[id];
+        img.remove();
+        delete this.image_hash[id];
+      }
+      return this.render();
     };
 
     ImageGrid.prototype.each_image = function(func) {
-      var i, idx, ref, results;
+      var id, idx, img, ref, results;
+      idx = 0;
+      ref = this.image_hash;
       results = [];
-      for (idx = i = 0, ref = this.images.length; 0 <= ref ? i < ref : i > ref; idx = 0 <= ref ? ++i : --i) {
-        results.push(func(idx, this.images[idx]));
+      for (id in ref) {
+        img = ref[id];
+        func(idx, img);
+        results.push(idx++);
       }
       return results;
     };
@@ -153,11 +172,11 @@
     };
 
     ImageGrid.prototype.lazy_load_images = function() {
-      var i, image, len, ref, results;
-      ref = this.images;
+      var id, image, ref, results;
+      ref = this.image_hash;
       results = [];
-      for (i = 0, len = ref.length; i < len; i++) {
-        image = ref[i];
+      for (id in ref) {
+        image = ref[id];
         results.push(image.lazy_load());
       }
       return results;
@@ -189,8 +208,10 @@
             $images = jQuery(res).find('.grid .images .image');
             if ($images.length) {
               $images.each(function(idx, el) {
-                var $image;
+                var $image, id;
                 $image = jQuery(el);
+                id = $image.data('id');
+                $image.data('id', "" + id + page);
                 _this.$el.append($image);
                 return _this.add_image($image);
               });
@@ -210,16 +231,129 @@
 
   })();
 
+  ImageSelector = (function() {
+    function ImageSelector($el) {
+      this.$el = $el;
+      this.bind_events();
+    }
+
+    ImageSelector.prototype.bind_events = function() {
+      var that;
+      that = this;
+      this.$el.on('click', '.image .icheck', function() {
+        jQuery(this).toggleClass('selected');
+        return that.refresh_selected();
+      });
+      return jQuery('.checkstatus a.check').on('click', function() {
+        var $checkstatus;
+        $checkstatus = jQuery(this).closest('.checkstatus');
+        if ($checkstatus.hasClass('none') || $checkstatus.hasClass('some')) {
+          that.$el.find('.image .icheck').addClass('selected');
+          that.refresh_selected();
+          return;
+        }
+        if ($checkstatus.hasClass('all')) {
+          that.$el.find('.image .icheck').removeClass('selected');
+          that.refresh_selected();
+        }
+      });
+    };
+
+    ImageSelector.prototype.refresh_selected = function() {
+      var all_length, length;
+      length = this.$el.find('.image .icheck.selected').length;
+      all_length = this.$el.find('.image .icheck').length;
+      jQuery('.opbar .checkstatus span.n').text(length);
+      jQuery('.opbar .checkstatus').removeClass('none some all');
+      if (length === 0) {
+        jQuery('.opbar .checkstatus').addClass('none');
+      } else if (length < all_length) {
+        jQuery('.opbar .checkstatus').addClass('some');
+      } else {
+        jQuery('.opbar .checkstatus').addClass('all');
+      }
+      if (length > 0) {
+        return jQuery('.opbar .btns .bttn').removeClass('disabled');
+      } else {
+        return jQuery('.opbar .btns .bttn').addClass('disabled');
+      }
+    };
+
+    ImageSelector.prototype.get_selected = function() {
+      return this.$el.find('.image .icheck.selected').closest('.image');
+    };
+
+    return ImageSelector;
+
+  })();
+
   jQuery(document).on('ready page:load', function() {
-    var ig;
+    var ig, ise, popbox_delete, popbox_download;
     if (jQuery('.grid .images').length) {
       ig = new ImageGrid(jQuery('.grid .images'), {
         layout: GridLayout,
         viewport: jQuery('.grid .nano-content')
       });
       ig.render();
-      return jQuery(window).off('resize').on('resize', function() {
+      jQuery(window).off('resize').on('resize', function() {
         return ig.render();
+      });
+      ise = new ImageSelector(jQuery('.grid .images'));
+      popbox_delete = new PopBox(jQuery('.popbox.template.delete'));
+      jQuery('.opbar a.bttn.delete').on('click', function() {
+        return popbox_delete.show(function() {
+          var len;
+          len = ise.get_selected().length;
+          popbox_delete.$inner.find('span.n').text(len);
+          return popbox_delete.bind_ok(function() {
+            var ids, image;
+            ids = (function() {
+              var i, len1, ref, results;
+              ref = ise.get_selected();
+              results = [];
+              for (i = 0, len1 = ref.length; i < len1; i++) {
+                image = ref[i];
+                results.push(jQuery(image).data('id'));
+              }
+              return results;
+            })();
+            console.log(ids);
+            return jQuery.ajax({
+              url: '/',
+              data: {
+                ids: ids
+              },
+              success: function(res) {
+                ig.remove_img_ids(ids);
+                popbox_delete.close();
+                return ise.refresh_selected();
+              }
+            });
+          });
+        });
+      });
+      popbox_download = new PopBox(jQuery('.popbox.template.download'));
+      return jQuery('.opbar a.bttn.download').on('click', function() {
+        return popbox_download.show(function() {
+          var len;
+          len = ise.get_selected().length;
+          popbox_download.$inner.find('span.n').text(len);
+          return popbox_download.bind_ok(function() {
+            var ids, image;
+            ids = (function() {
+              var i, len1, ref, results;
+              ref = ise.get_selected();
+              results = [];
+              for (i = 0, len1 = ref.length; i < len1; i++) {
+                image = ref[i];
+                results.push(jQuery(image).data('id'));
+              }
+              return results;
+            })();
+            console.log(ids);
+            return alert('下载');
+          });
+        });
       });
     }
   });

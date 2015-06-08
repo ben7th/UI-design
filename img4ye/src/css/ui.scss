@@ -51,7 +51,7 @@ $gap: 15px;
 }
 
 @mixin default-transition {
-  @include transition(all ease-out .3s)
+  @include transition(all ease .3s);
 }
 
 // nono scroller
@@ -325,7 +325,8 @@ body.app .page-dashboard {
             span.c {
               font-size: 24px;
               font-family: Futura-Condensed;
-              font-weight: bold;
+              // font-weight: bold;
+              color: #666;
             }
           }
           a.btn {
@@ -341,20 +342,22 @@ body.app .page-dashboard {
       @include height($opbar-height);
       font-size: 16px;
 
-      a {
-        float: left;
-        color: #555;
-        text-decoration: none;
-        margin-right: 30px;
+      .btns {
+        float: right;
       }
 
       a.bttn {
+        float: left;
         background-color: #e3e3e3;
         @include height(30px);
         border-radius:16px;
         margin-top: 10px;
-        padding: 0 15px;
-        margin-right: 10px;
+        padding: 0 15px 0 15px;
+        margin-right: 0;
+        margin-left: 25px;
+        color: #666;
+        text-decoration: none;
+        @include default-transition;
         &:hover {
           background-color: #f7f7f7;
         }
@@ -365,21 +368,48 @@ body.app .page-dashboard {
         }
       }
 
-      .check {
-        .cb {
-          float: left;
-          margin-right: 10px;
-          width:16px;height:16px;
-          border:solid 2px #666;
-          border-radius:3px;
-          margin-top: 15px;
-          background-color: #FFF;
-          i {
-            color: #666;
-            display: block;
+      .checkstatus {
+        float: left;
+        color: #555;
+
+        a.check {
+          color: #555;
+          .cb {
+            float: left;
+            margin-right: 10px;
             width:16px;height:16px;
-            text-align: center;
+            border:solid 2px #888;
+            border-radius:3px;
+            margin-top: 15px;
+            background-color: #FFF;
+            font-size: 14px;
+            i {
+              display: block;
+              width:16px;height:16px;
+              text-align: center;
+            }
           }
+          &:focus {text-decoration: none;}
+          &:hover {text-decoration:underline;}
+          span.t2 {display:none;}
+        }
+        span.point {
+          margin:0 15px;
+        }
+
+        &.none {
+          color: #ccc;
+          i {opacity: 0;}
+        }
+        &.some {
+          color: #555;
+          i {opacity: 1; color: #ccc;}
+        }
+        &.all {
+          color: #555;
+          i {opacity: 1; color: #555;}
+          a.check span.t1 {display:none;}
+          a.check span.t2 {display:inline;}
         }
       }
     }
@@ -406,23 +436,40 @@ body.app .page-dashboard {
           @include default-transition;
 
           .icheck {
-            $fc: rgba(white, 0.8);
-            $bc: rgba(black, 0.3);
+            box-sizing: border-box;
+            $w: 48px;
+            $fc: white;
+            $bc: rgba(black, 0.4);
             position: absolute;
-            top: 15px; left: 15px;
-            width: 30px; height: 30px;
+            top: 12px; right: 12px;
+            width: $w; height: $w;
             border-radius: 100%;
             background-color: $bc;
-            box-shadow:0 0 0 3px $fc;
+            border:solid 3px $fc;
+            cursor: pointer;
+            color: $fc;
+            opacity: 0.8;
+            @include default-transition;
             &:before {
+              $w1: $w - 6px;
+              font-size:$w1 / 2;
               content: "\f00c";
               font-family: "FontAwesome";
-              color: $fc;
               text-align: center;
               position: absolute;
-              width:30px;height:30px;
-              line-height: 30px;
-              font-size: 18px;
+              width:$w1;height:$w1;
+              line-height:$w1;
+              @include default-transition;
+            }
+            &:hover {
+              opacity: 1;
+              box-shadow: 0 0 5px white;
+            }
+            &.selected {
+              border-color:$area-info;
+              background-color: $area-info;
+              opacity: 1;
+              &:before{font-size: 24px;}
             }
           }
         }
@@ -489,6 +536,83 @@ body.app .page-dashboard {
           }
         }
       }
+    }
+  }
+}
+
+.popbox.popbox-overlay {
+  position: fixed;
+  top:0;left:0;right:0;bottom:0;
+  background-color: rgba(black, 0.5);
+  z-index:100;
+  .popbox.box {
+    border-radius:4px;
+    $w: 480px;
+    $h: 270px;
+    width: $w;
+    min-height: $h;
+    position: absolute;
+    left: 50%; margin-left: -$w/2;
+    top: 180px;
+    background-color: #FFF;
+    box-shadow:0 0 5px black;
+    padding: 30px;
+    box-sizing: border-box;
+  }
+}
+
+.popbox.template {
+  display: none;
+}
+
+.popbox.template.delete {
+  .ac {
+    background: url(http://img.teamkn.com/i/kazGqWik.png);
+    width:150px;height:130px;
+    margin:0 auto 30px;
+  }
+  .tip {
+    text-align: center;
+    line-height: 30px;
+    span.n {
+      font-family: Futura-Condensed;
+      color: $area-hot;
+      font-size: 24px;
+    }
+  }
+  .popbox.actions {
+    margin-top: 30px;
+    text-align: center;
+    .popbox.action {
+      display: inline-block;
+      width: 150px;
+      margin:0 15px;
+    }
+  }
+}
+
+.popbox.template.download {
+  .icon {
+    text-align: center;
+    font-size: 64px;
+    margin-bottom: 30px;
+  }
+  .tip {
+    text-align: center;
+    line-height: 30px;
+    span.n {
+      font-family: Futura-Condensed;
+      color: $area-hot;
+      font-size: 24px;
+    }
+  }
+  .popbox.actions {
+    margin-top: 30px;
+    text-align: center;
+    .popbox.action {
+      display: inline-block;
+      width: 150px;
+      margin:0 15px;
     }
   }
 }

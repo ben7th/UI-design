@@ -61,6 +61,9 @@ class Image
           @$ibox.css 'background', 'none'
       .appendTo @$ibox
 
+  remove: ->
+    @$el.remove()
+
 ###
 用途：
   图像网格，支持以多种布局来显示图像
@@ -88,7 +91,7 @@ class ImageGrid
     @$el.css
       'position': 'relative'
     
-    @images = []
+    @image_hash = {}
     for dom in @$el.find('.image')
       @add_image jQuery(dom)
 
@@ -105,11 +108,25 @@ class ImageGrid
     jQuery('<div>')
       .addClass('icheck')
       .appendTo img.$el
-    @images.push img
+    @image_hash[$image.data('id')] = img
+
+  remove_img_ids: (ids)->
+    for id in ids
+      img = @image_hash[id]
+      img.remove()
+      delete @image_hash[id]
+    @render()
+
+
+
 
   each_image: (func)->
-    for idx in [0 ... @images.length]
-      func idx, @images[idx] 
+    # for idx in [0 ... @images.length]
+    #   func idx, @images[idx] 
+    idx = 0
+    for id, img of @image_hash
+      func idx, img
+      idx++
 
   # 对所有图片重新布局
   render: ->
@@ -121,7 +138,7 @@ class ImageGrid
       }
 
   lazy_load_images: ->
-    image.lazy_load() for image in @images
+    image.lazy_load() for id, image of @image_hash
 
   get_width: ->
     @$el.width()
@@ -142,6 +159,8 @@ class ImageGrid
         if $images.length
           $images.each (idx, el)=>
             $image = jQuery(el)
+            id = $image.data('id')            # 这两行用于静态页面，
+            $image.data('id', "#{id}#{page}") # 集成时去掉
             @$el.append $image
             @add_image $image
 
@@ -152,6 +171,52 @@ class ImageGrid
         else
           @$el.removeClass 'loading'
           @$el.addClass 'end'
+
+
+
+# ----------
+# 复选图片
+
+class ImageSelector
+  constructor: (@$el)->
+    @bind_events()
+
+  bind_events: ->
+    that = this
+    @$el.on 'click', '.image .icheck', ->
+      jQuery(this).toggleClass('selected')
+      that.refresh_selected()
+
+    jQuery('.checkstatus a.check').on 'click', ->
+      $checkstatus = jQuery(this).closest('.checkstatus')
+      if $checkstatus.hasClass('none') or $checkstatus.hasClass('some')
+        that.$el.find('.image .icheck').addClass('selected')
+        that.refresh_selected()
+        return
+      if $checkstatus.hasClass('all')
+        that.$el.find('.image .icheck').removeClass('selected')
+        that.refresh_selected()
+        return
+
+  refresh_selected: ->
+    length = @$el.find('.image .icheck.selected').length
+    all_length = @$el.find('.image .icheck').length
+    jQuery('.opbar .checkstatus span.n').text length
+    jQuery('.opbar .checkstatus').removeClass('none some all')
+    if length is 0
+      jQuery('.opbar .checkstatus').addClass('none')
+    else if length < all_length
+      jQuery('.opbar .checkstatus').addClass('some')
+    else
+      jQuery('.opbar .checkstatus').addClass('all')
+
+    if length > 0
+      jQuery('.opbar .btns .bttn').removeClass('disabled')
+    else
+      jQuery('.opbar .btns .bttn').addClass('disabled')
+
+  get_selected: ->
+    @$el.find('.image .icheck.selected').closest('.image')
 
 
 jQuery(document).on 'ready page:load', ->
@@ -169,9 +234,42 @@ jQuery(document).on 'ready page:load', ->
       .on 'resize', -> 
         ig.render()
 
+    ise = new ImageSelector jQuery('.grid .images')
+
   # if jQuery('.page-image-show').length
   #   jQuery(document).delegate 'input.url', 'click', ->
   #     jQuery(this).select()
+
+    popbox_delete = new PopBox jQuery('.popbox.template.delete')
+    jQuery('.opbar a.bttn.delete').on 'click', ->
+      popbox_delete.show ->
+        len = ise.get_selected().length
+        popbox_delete.$inner.find('span.n').text len
+        popbox_delete.bind_ok ->
+          ids = for image in ise.get_selected()
+            jQuery(image).data('id')
+          console.log ids
+          jQuery.ajax
+            url: '/'
+            data: 
+              ids: ids
+            success: (res)->
+              ig.remove_img_ids ids
+              popbox_delete.close()
+              ise.refresh_selected()
+
+
+    popbox_download = new PopBox jQuery('.popbox.template.download')
+    jQuery('.opbar a.bttn.download').on 'click', ->
+      popbox_download.show ->
+        len = ise.get_selected().length
+        popbox_download.$inner.find('span.n').text len
+        popbox_download.bind_ok ->
+          ids = for image in ise.get_selected()
+            jQuery(image).data('id')
+          console.log ids
+          alert('下载')
+
 
 jQuery(document).on 'click', 'a.btn-upload', ->
   $panel = jQuery('.upload-panel')

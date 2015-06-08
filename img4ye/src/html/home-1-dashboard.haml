@@ -36,7 +36,7 @@
               .stat
                 .sts
                   .st.uploaded
-                    %span.c 15
+                    %span.c 152
                     %span.t 张图片，
                     %span.c 32.63 MB
                     %span.t 空间占用，
@@ -51,19 +51,26 @@
           .container
             .row
               .col-pad-12
-                %a.check{:href => 'javascript:;'}
-                  .cb
-                    %i.fa.fa-check
-                  %span 选择所有图片
-                %a.bttn.copylink.disabled{:href => 'javascript:;'}
-                  %i.fa.fa-copy
-                  %span 复制链接
-                %a.bttn.download.disabled{:href => 'javascript:;'}
-                  %i.fa.fa-download
-                  %span 下载
-                %a.bttn.delete.disabled{:href => 'javascript:;'}
-                  %i.fa.fa-trash
-                  %span 删除
+                .checkstatus.none
+                  %a.check{:href => 'javascript:;'}
+                    .cb
+                      %i.fa.fa-check
+                    %span.txt.t1> 选择所有图片
+                    %span.txt.t2> 取消所选
+                  %span.point> ·
+                  %span 已选
+                  %span.n 0
+                  %span 张
+                .btns
+                  %a.bttn.copylink.disabled{:href => 'javascript:;'}
+                    %i.fa.fa-copy
+                    %span 复制链接
+                  %a.bttn.download.disabled{:href => 'javascript:;'}
+                    %i.fa.fa-download
+                    %span 下载
+                  %a.bttn.delete.disabled{:href => 'javascript:;'}
+                    %i.fa.fa-trash
+                    %span 删除
 
         .grid.nano
           .nano-content
@@ -81,6 +88,10 @@
                       Image = Struct.new(:key, :ave, :width, :height) do
                         def url
                           "http://img.teamkn.com/i/#{key}"
+                        end
+
+                        def id
+                          key.split('.')[0]
                         end
                       end
 
@@ -107,7 +118,6 @@
                         Image.new('QQXGPAWH.jpg', '#0D1D28', 477,  675),
                         Image.new('CwifcMsv.jpg', '#3E3C36', 477,  467),
                         Image.new('CcwraYrJ.jpg', '#4C6861', 477,  467),
-                        Image.new('BqRxa0pO.jpg', '#020203', 477,  467),
                         Image.new('bWwThUfi.jpg', '#8E644D', 477,  675),
                         Image.new('sEmGzY2U.png', '#E2D67C', 600,  400),
                         Image.new('o3LntKdn.png', '#FDCC97', 600,  400),
@@ -123,7 +133,7 @@
                       ]
 
                     - arr.each do |img|
-                      .image{:data => {:ave => img.ave, :width => img.width, :height => img.height, :url => img.url}}
+                      .image{:data => {:ave => img.ave, :width => img.width, :height => img.height, :url => img.url, :id => img.id}}
 
 
         .upload-panel
@@ -134,3 +144,32 @@
                   .pbox
                     %a.close-panel{:href => 'javascript:;'}
                       %i.fa.fa-close
+
+      .popbox.template.delete
+        .ac
+        .tip
+          %span 你确定要删除这
+          %span.n 5
+          %span 张图片吗？
+        .tip
+          %span 删除了就找不回来了！
+        .popbox.actions
+          %a.btn.btn-pill.btn-flat-danger.btn-large.popbox.action.ok{:href => 'javascript:;'}
+            %i.fa.fa-trash
+            %span 确定删除
+          %a.btn.btn-pill.btn-flat.btn-large.popbox.action.close{:href => 'javascript:;'}
+            %span 关闭
+
+      .popbox.template.download
+        .icon
+          %i.fa.fa-file-zip-o
+        .tip
+          %span 你要打包下载这
+          %span.n 5
+          %span 张图片吗？
+        .popbox.actions
+          %a.btn.btn-pill.btn-flat-success.btn-large.popbox.action.ok{:href => 'javascript:;'}
+            %i.fa.fa-download
+            %span 确定下载
+          %a.btn.btn-pill.btn-flat.btn-large.popbox.action.close{:href => 'javascript:;'}
+            %span 关闭
