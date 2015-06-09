@@ -123,35 +123,71 @@
 
     function GridLayout(host) {
       this.host = host;
+      this.data = {};
+      this.layout_version = 0;
+      this.compute_data();
     }
 
-    GridLayout.prototype.render = function() {
-      var cols, columns_count, container_width, grid_data, max_height, side_length;
-      container_width = this.host.get_width();
-      columns_count = ~~(container_width / 200);
-      grid_data = Util.spacing_grid_data(container_width, columns_count, this.GRID_SPACING);
-      side_length = grid_data.side_length;
-      cols = Util.array_init(columns_count, (function(_this) {
-        return function() {
-          return {
-            height: _this.GRID_SPACING
+    GridLayout.prototype.compute_data = function() {
+
+      /*
+        性能改进策略：
+        如果显示区域宽度不变，那么
+          网格边长 side_length
+          网格列信息 cols
+        都不会变化，无需重新计算。
+        相应地，如果调用重新布局方法时，以上数据未变化，则不对已经放置好位置的布局对象进行处理
+       */
+      var cols_count, pos_data, width;
+      width = this.host.get_width();
+      if (width === this.data.container_width) {
+        return;
+      }
+      cols_count = ~~(width / 200);
+      pos_data = Util.spacing_grid_data(width, cols_count, this.GRID_SPACING);
+      this.data = {
+        container_width: width,
+        side_length: pos_data.side_length,
+        cols: Util.array_init(cols_count, (function(_this) {
+          return function(idx) {
+            return {
+              left: pos_data.positions[idx],
+              height: _this.GRID_SPACING
+            };
           };
-        };
-      })(this));
+        })(this))
+      };
+      return this.layout_version += 1;
+    };
+
+    GridLayout.prototype.relayout = function(force) {
+      var cols, max_height, slen;
+      if (force == null) {
+        force = false;
+      }
+      if (force) {
+        this.data = {};
+        this.layout_version += 1;
+      }
+      this.compute_data();
+      cols = this.data.cols;
+      slen = this.data.side_length;
       this.host.each_image((function(_this) {
         return function(idx, image) {
           var heights, left, top, x;
+          if (image.layout_version === _this.layout_version) {
+            return;
+          }
+          image.layout_version = _this.layout_version;
           heights = cols.map(function(col) {
             return col.height;
           });
           top = Util.array_min(heights);
           x = heights.indexOf(top);
-          left = grid_data.positions[x];
-          cols[x].height += side_length + _this.GRID_SPACING;
-          image.pos(left, top, side_length, side_length);
-          return setTimeout(function() {
-            return image.lazy_load();
-          }, 100);
+          left = cols[x].left;
+          cols[x].height += slen + _this.GRID_SPACING;
+          image.pos(left, top, slen, slen);
+          return image.lazy_load();
         };
       })(this));
       max_height = Util.array_max(cols.map(function(col) {

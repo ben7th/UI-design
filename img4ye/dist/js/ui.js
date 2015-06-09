@@ -52,6 +52,9 @@
         return;
       }
       this.loaded = true;
+      if (!((this.layout_width != null) && (this.layout_height != null))) {
+        return;
+      }
       w = Math.round(this.layout_width);
       h = Math.round(this.layout_height);
       return img = jQuery("<img>").attr('src', this.get_png_url(w, h)).attr('draggable', false).css({
@@ -95,7 +98,7 @@
         layout: GridLayout
         viewport: jQuery('.grid')
       }
-      ig.render()
+      ig.relayout()
    */
 
   ImageGrid = (function() {
@@ -121,7 +124,7 @@
     }
 
     ImageGrid.prototype.bind_events = function() {
-      return this.$viewport.on('scroll', (function(_this) {
+      this.$viewport.on('scroll', (function(_this) {
         return function(evt) {
           _this.lazy_load_images();
           if (_this.layout.need_load_more()) {
@@ -129,6 +132,9 @@
           }
         };
       })(this));
+      return this.$viewport.on('mindpin', function() {
+        return alert(1);
+      });
     };
 
     ImageGrid.prototype.add_image = function($image) {
@@ -146,7 +152,7 @@
         img.remove();
         delete this.image_hash[id];
       }
-      return this.render();
+      return this.relayout(true);
     };
 
     ImageGrid.prototype.each_image = function(func) {
@@ -162,8 +168,11 @@
       return results;
     };
 
-    ImageGrid.prototype.render = function() {
-      this.layout.render();
+    ImageGrid.prototype.relayout = function(force) {
+      if (force == null) {
+        force = false;
+      }
+      this.layout.relayout(force);
       return setTimeout(function() {
         return jQuery('.nano').nanoScroller({
           alwaysVisible: true
@@ -187,44 +196,37 @@
     };
 
     ImageGrid.prototype.load_more = function() {
-      var page;
-      if (this.$el.hasClass('end')) {
-        return;
-      }
-      if (this.$el.hasClass('loading')) {
+      var curr_page, next_page;
+      if (this.$el.hasClass('end') || this.$el.hasClass('loading')) {
         return;
       }
       this.$el.addClass('loading');
-      page = this.$el.data('page') || 1;
-      return jQuery.ajax({
-        url: this.load_more_url,
-        type: 'GET',
-        data: {
-          page: page + 1
-        },
-        success: (function(_this) {
-          return function(res) {
-            var $images;
-            $images = jQuery(res).find('.grid .images .image');
-            if ($images.length) {
-              $images.each(function(idx, el) {
-                var $image, id;
-                $image = jQuery(el);
-                id = $image.data('id');
-                $image.data('id', "" + id + page);
-                _this.$el.append($image);
-                return _this.add_image($image);
-              });
-              _this.render();
-              _this.$el.removeClass('loading');
-              return _this.$el.data('page', page + 1);
-            } else {
-              _this.$el.removeClass('loading');
-              return _this.$el.addClass('end');
-            }
-          };
-        })(this)
-      });
+      curr_page = this.$el.data('page') || 1;
+      next_page = curr_page + 1;
+      return jQuery.get(this.load_more_url, {
+        page: next_page
+      }).done((function(_this) {
+        return function(res) {
+          var $images;
+          $images = jQuery(res).find('.grid .images .image');
+          if ($images.length) {
+            $images.each(function(idx, el) {
+              var $image, id;
+              $image = jQuery(el);
+              id = $image.data('id');
+              $image.data('id', "" + id + curr_page);
+              _this.$el.append($image);
+              return _this.add_image($image);
+            });
+            _this.relayout();
+            _this.$el.removeClass('loading');
+            return _this.$el.data('page', next_page);
+          } else {
+            _this.$el.removeClass('loading');
+            return _this.$el.addClass('end');
+          }
+        };
+      })(this));
     };
 
     return ImageGrid;
@@ -288,15 +290,15 @@
   })();
 
   jQuery(document).on('ready page:load', function() {
-    var ig, ise, popbox_delete, popbox_download;
+    var igird, ise, popbox_delete, popbox_download;
     if (jQuery('.grid .images').length) {
-      ig = new ImageGrid(jQuery('.grid .images'), {
+      igird = new ImageGrid(jQuery('.grid .images'), {
         layout: GridLayout,
         viewport: jQuery('.grid .nano-content')
       });
-      ig.render();
+      igird.relayout();
       jQuery(window).off('resize').on('resize', function() {
-        return ig.render();
+        return igird.relayout();
       });
       ise = new ImageSelector(jQuery('.grid .images'));
       popbox_delete = new PopBox(jQuery('.popbox.template.delete'));
@@ -324,7 +326,7 @@
                 ids: ids
               },
               success: function(res) {
-                ig.remove_img_ids(ids);
+                igird.remove_img_ids(ids);
                 popbox_delete.close();
                 return ise.refresh_selected();
               }

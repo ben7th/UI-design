@@ -5519,3 +5519,5 @@ body.app .page-dashboard {
     display: inline-block;
     width: 150px;
     margin: 0 15px; }
+    .popbox.template.download .popbox.actions .popbox.action:first-child {
+      width: 200px; }

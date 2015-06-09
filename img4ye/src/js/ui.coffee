@@ -44,6 +44,8 @@ class Image
     return if @loaded
     @loaded = true
 
+    return if not (@layout_width? and @layout_height?)
+
     w = Math.round @layout_width
     h = Math.round @layout_height
 
@@ -81,7 +83,7 @@ class Image
       layout: GridLayout
       viewport: jQuery('.grid')
     }
-    ig.render()
+    ig.relayout()
 ###
 class ImageGrid
   constructor: (@$el, config = {})->
@@ -103,6 +105,9 @@ class ImageGrid
       @lazy_load_images()
       @load_more() if @layout.need_load_more()
 
+    @$viewport.on 'mindpin', ->
+      alert(1)
+
   add_image: ($image)->
     img = new Image $image
     jQuery('<div>')
@@ -115,10 +120,7 @@ class ImageGrid
       img = @image_hash[id]
       img.remove()
       delete @image_hash[id]
-    @render()
-
-
-
+    @relayout(true)
 
   each_image: (func)->
     # for idx in [0 ... @images.length]
@@ -129,8 +131,8 @@ class ImageGrid
       idx++
 
   # 对所有图片重新布局
-  render: ->
-    @layout.render()
+  relayout: (force = false)->
+    @layout.relayout(force)
     setTimeout ->
       jQuery('.nano').nanoScroller {
         alwaysVisible: true
@@ -144,33 +146,32 @@ class ImageGrid
     @$el.width()
 
   load_more: ->
-    return if @$el.hasClass 'end'
-    return if @$el.hasClass 'loading'
+    return if @$el.hasClass('end') or @$el.hasClass('loading')
     @$el.addClass 'loading'
-    page = @$el.data('page') || 1
-    jQuery.ajax
-      url: @load_more_url
-      type: 'GET'
-      data:
-        page: page + 1
-      success: (res)=>
-        $images = jQuery(res).find('.grid .images .image')
+    curr_page = @$el.data('page') || 1
+    next_page = curr_page + 1
 
-        if $images.length
-          $images.each (idx, el)=>
-            $image = jQuery(el)
-            id = $image.data('id')            # 这两行用于静态页面，
-            $image.data('id', "#{id}#{page}") # 集成时去掉
-            @$el.append $image
-            @add_image $image
+    jQuery.get @load_more_url, { 
+      page: next_page 
+    }
+    .done (res)=>
+      $images = jQuery(res).find('.grid .images .image')
 
-          @render()
-          @$el.removeClass 'loading'
-          @$el.data 'page', page + 1
+      if $images.length
+        $images.each (idx, el)=>
+          $image = jQuery(el)
+          id = $image.data('id')                 # 这两行用于静态页面，
+          $image.data('id', "#{id}#{curr_page}") # 集成时去掉
+          @$el.append $image
+          @add_image $image
 
-        else
-          @$el.removeClass 'loading'
-          @$el.addClass 'end'
+        @relayout()
+        @$el.removeClass 'loading'
+        @$el.data 'page', next_page
+
+      else
+        @$el.removeClass 'loading'
+        @$el.addClass 'end'
 
 
 
@@ -221,18 +222,18 @@ class ImageSelector
 
 jQuery(document).on 'ready page:load', ->
   if jQuery('.grid .images').length
-    ig = new ImageGrid jQuery('.grid .images'), {
+    igird = new ImageGrid jQuery('.grid .images'), {
       # layout: FlowLayout
       layout: GridLayout
       viewport: jQuery('.grid .nano-content')
     }
 
-    ig.render()
+    igird.relayout()
 
     jQuery(window)
       .off 'resize'
       .on 'resize', -> 
-        ig.render()
+        igird.relayout()
 
     ise = new ImageSelector jQuery('.grid .images')
 
@@ -254,7 +255,7 @@ jQuery(document).on 'ready page:load', ->
             data: 
               ids: ids
             success: (res)->
-              ig.remove_img_ids ids
+              igird.remove_img_ids ids
               popbox_delete.close()
               ise.refresh_selected()
 
