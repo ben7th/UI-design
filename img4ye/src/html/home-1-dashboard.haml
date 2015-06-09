@@ -1,3 +1,51 @@
+:ruby
+  Image = Struct.new(:key, :ave, :width, :height) do
+    def url
+      "http://img.teamkn.com/i/#{key}"
+    end
+
+    def id
+      key.split('.')[0]
+    end
+  end
+
+  arr = [
+    Image.new('i4Wbvapm.png', '#482A19', 1024, 680),
+    Image.new('wx8Bq1E6.png', '#900A06', 1024, 878),
+    Image.new('tix7qaCf.png', '#563B1E', 640,  426),
+    Image.new('bymfsoh5.png', '#5A493C', 640,  640),
+    Image.new('ZMoAbk12.png', '#D0604D', 720,  720),
+    Image.new('TdDAbHER.png', '#9C7249', 640,  640),
+    Image.new('yo8613J9.png', '#51371F', 640,  640),
+    Image.new('X8LhkEPT.png', '#90A872', 640,  640),
+    Image.new('gjhLX2HZ.png', '#4E331D', 600,  525),
+    Image.new('NjbKPqT2.png', '#BA7074', 720,  720),
+    Image.new('i6FYzfMS.png', '#80632D', 640,  640),
+    Image.new('qZnvgddO.jpg', '#435464', 477,  675),
+    Image.new('C8p1BZ3m.jpg', '#40BA9F', 477,  467),
+    Image.new('sFokcStZ.jpg', '#2C3338', 477,  675),
+    Image.new('D4Tkko8b.jpg', '#BA7A68', 477,  467),
+    Image.new('GvadbyxR.jpg', '#80632D', 477,  467),
+    Image.new('wVAEKa0F.jpg', '#676968', 477,  467),
+    Image.new('DhxsQ6lq.jpg', '#656360', 477,  467),
+    Image.new('BqRxa0pO.jpg', '#020203', 477,  467),
+    Image.new('QQXGPAWH.jpg', '#0D1D28', 477,  675),
+    Image.new('CwifcMsv.jpg', '#3E3C36', 477,  467),
+    Image.new('CcwraYrJ.jpg', '#4C6861', 477,  467),
+    Image.new('bWwThUfi.jpg', '#8E644D', 477,  675),
+    Image.new('sEmGzY2U.png', '#E2D67C', 600,  400),
+    Image.new('o3LntKdn.png', '#FDCC97', 600,  400),
+    Image.new('ka3r5ZC4.png', '#E59370', 600,  400),
+    Image.new('ceCnw6QI.png', '#809D65', 600,  400),
+    Image.new('l4U68CQt.png', '#D69D4E', 600,  400),
+    Image.new('SCAHZ1j1.png', '#E09C68', 600,  400),
+    Image.new('h6NjVtue.png', '#AAB87D', 600,  400),
+    Image.new('dGbioNC8.png', '#CCCC88', 600,  400),
+    Image.new('qEe9mLR0.png', '#D8AA58', 600,  400),
+    Image.new('Z7hcm6aq.png', '#9C8582', 300,  300),
+    Image.new('n5vvUwxB.png', '#CAC6C0', 520,  520),
+  ]
+
 = Haml::Engine.new(File.read "#{Dir.pwd}/img4ye/src/partial/app.html.haml").render do
   - capture_haml do
     .page-dashboard
@@ -84,54 +132,6 @@
                   - # 集成注意：load-more-url 应填写加载下一页用到的地址
                   - # 图片数组要改成从控制器层获取
                   .images{:data => {:'load-more-url' => 'home-1-dashboard.html'}}
-                    :ruby
-                      Image = Struct.new(:key, :ave, :width, :height) do
-                        def url
-                          "http://img.teamkn.com/i/#{key}"
-                        end
-
-                        def id
-                          key.split('.')[0]
-                        end
-                      end
-
-                      arr = [
-                        Image.new('i4Wbvapm.png', '#482A19', 1024, 680),
-                        Image.new('wx8Bq1E6.png', '#900A06', 1024, 878),
-                        Image.new('tix7qaCf.png', '#563B1E', 640,  426),
-                        Image.new('bymfsoh5.png', '#5A493C', 640,  640),
-                        Image.new('ZMoAbk12.png', '#D0604D', 720,  720),
-                        Image.new('TdDAbHER.png', '#9C7249', 640,  640),
-                        Image.new('yo8613J9.png', '#51371F', 640,  640),
-                        Image.new('X8LhkEPT.png', '#90A872', 640,  640),
-                        Image.new('gjhLX2HZ.png', '#4E331D', 600,  525),
-                        Image.new('NjbKPqT2.png', '#BA7074', 720,  720),
-                        Image.new('i6FYzfMS.png', '#80632D', 640,  640),
-                        Image.new('qZnvgddO.jpg', '#435464', 477,  675),
-                        Image.new('C8p1BZ3m.jpg', '#40BA9F', 477,  467),
-                        Image.new('sFokcStZ.jpg', '#2C3338', 477,  675),
-                        Image.new('D4Tkko8b.jpg', '#BA7A68', 477,  467),
-                        Image.new('GvadbyxR.jpg', '#80632D', 477,  467),
-                        Image.new('wVAEKa0F.jpg', '#676968', 477,  467),
-                        Image.new('DhxsQ6lq.jpg', '#656360', 477,  467),
-                        Image.new('BqRxa0pO.jpg', '#020203', 477,  467),
-                        Image.new('QQXGPAWH.jpg', '#0D1D28', 477,  675),
-                        Image.new('CwifcMsv.jpg', '#3E3C36', 477,  467),
-                        Image.new('CcwraYrJ.jpg', '#4C6861', 477,  467),
-                        Image.new('bWwThUfi.jpg', '#8E644D', 477,  675),
-                        Image.new('sEmGzY2U.png', '#E2D67C', 600,  400),
-                        Image.new('o3LntKdn.png', '#FDCC97', 600,  400),
-                        Image.new('ka3r5ZC4.png', '#E59370', 600,  400),
-                        Image.new('ceCnw6QI.png', '#809D65', 600,  400),
-                        Image.new('l4U68CQt.png', '#D69D4E', 600,  400),
-                        Image.new('SCAHZ1j1.png', '#E09C68', 600,  400),
-                        Image.new('h6NjVtue.png', '#AAB87D', 600,  400),
-                        Image.new('dGbioNC8.png', '#CCCC88', 600,  400),
-                        Image.new('qEe9mLR0.png', '#D8AA58', 600,  400),
-                        Image.new('Z7hcm6aq.png', '#9C8582', 300,  300),
-                        Image.new('n5vvUwxB.png', '#CAC6C0', 520,  520),
-                      ]
-
                     - arr.each do |img|
                       .image{:data => {:ave => img.ave, :width => img.width, :height => img.height, :url => img.url, :id => img.id}}
 
@@ -142,6 +142,26 @@
               .row
                 .col-pad-12
                   .pbox
+                    .uploading-images.nano
+                      .nano-content
+                        .w1
+                          - arr.each do |img|
+                            .image{:data => {:url => img.url}}
+                              .ibox{:style => "background-image:url(#{img.url})"}
+                              .percent
+                                .bar{:style => 'width:100%'}
+                                .txt
+                                  %span.p 0
+                                  %span %
+                                .done
+                                  %i.fa.fa-check
+
+
+                    .image-urls
+                      %select.form-control
+                        %option 原始尺寸链接
+                      %textarea.urls.form-control{:placeholder => '这里将显示图片链接', :readonly => true}
+
                     %a.close-panel{:href => 'javascript:;'}
                       %i.fa.fa-close
 

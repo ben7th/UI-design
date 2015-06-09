@@ -5010,11 +5010,8 @@ body.lily-example-doc .example + .code-highlight {
   /* Target only IE7 and IE8 with this hack */
   opacity: 0.99; }
 
-@media (min-width: 1200px) {
-  .container {
-    width: 100%;
-    min-width: 1170px;
-    max-width: 1800px; } }
+.nano {
+  height: auto; }
 
 html, body {
   overflow: hidden; }
@@ -5408,7 +5405,7 @@ body.app .page-dashboard {
         -o-transition: all 0.6s;
         transition: all 0.6s; }
         body.app .page-dashboard .main .upload-panel .panel .pbox {
-          padding-bottom: 50%;
+          height: 520px;
           position: relative; }
           body.app .page-dashboard .main .upload-panel .panel .pbox a.close-panel {
             box-sizing: border-box;
@@ -5442,6 +5439,107 @@ body.app .page-dashboard {
             body.app .page-dashboard .main .upload-panel .panel .pbox a.close-panel:hover {
               background-color: #222;
               box-shadow: 0 0 20px black; }
+          body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images {
+            position: absolute;
+            top: 15px;
+            bottom: 40px;
+            left: 0;
+            width: calc(50% - 15px);
+            overflow: hidden; }
+            body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images .w1 {
+              margin-right: 8px; }
+            body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images .image {
+              width: 25%;
+              padding-bottom: 25%;
+              position: relative;
+              float: left; }
+              body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images .image .ibox {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                right: 15px;
+                bottom: 15px;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center center;
+                border: solid 4px white;
+                box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1); }
+              body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images .image .percent {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                right: 15px;
+                bottom: 15px;
+                pointer-events: none; }
+                body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images .image .percent .bar {
+                  position: absolute;
+                  top: 0;
+                  right: 0;
+                  bottom: 0;
+                  background-color: rgba(255, 255, 255, 0.618); }
+                body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images .image .percent .txt, body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images .image .percent .done {
+                  position: absolute;
+                  left: 0;
+                  right: 0;
+                  top: 50%;
+                  margin-top: -20px;
+                  text-align: center;
+                  height: 40px;
+                  line-height: 40px;
+                  font-size: 16px;
+                  color: white;
+                  text-shadow: 1px 1px 3px black;
+                  font-weight: bold;
+                  font-family: Futura-Condensed;
+                  -webkit-transition: all ease 0.3s;
+                  -moz-transition: all ease 0.3s;
+                  -ms-transition: all ease 0.3s;
+                  -o-transition: all ease 0.3s;
+                  transition: all ease 0.3s; }
+                  body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images .image .percent .txt span.p, body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images .image .percent .done span.p {
+                    font-size: 32px; }
+                body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images .image .percent .done {
+                  font-size: 50px;
+                  opacity: 0;
+                  -webkit-transform: scale(0.1);
+                  -moz-transform: scale(0.1);
+                  -ms-transform: scale(0.1);
+                  -o-transform: scale(0.1);
+                  transform: scale(0.1); }
+              body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images .image.done .percent .txt {
+                opacity: 0;
+                -webkit-transform: scale(0.1);
+                -moz-transform: scale(0.1);
+                -ms-transform: scale(0.1);
+                -o-transform: scale(0.1);
+                transform: scale(0.1); }
+              body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images .image.done .percent .done {
+                opacity: 1;
+                -webkit-transform: scale(1);
+                -moz-transform: scale(1);
+                -ms-transform: scale(1);
+                -o-transform: scale(1);
+                transform: scale(1); }
+          body.app .page-dashboard .main .upload-panel .panel .pbox .image-urls {
+            position: absolute;
+            top: 15px;
+            bottom: 40px;
+            right: 0;
+            width: calc(50% - 15px); }
+            body.app .page-dashboard .main .upload-panel .panel .pbox .image-urls textarea.urls {
+              position: absolute;
+              top: 49px;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              resize: none;
+              width: 100%;
+              box-sizing: border-box;
+              font-family: "Menlo", "Monaco", "Consolas", "Courier New", "monospace", "微软雅黑";
+              padding: 12px;
+              font-size: 16px;
+              background-color: #FFF;
+              cursor: default; }
       body.app .page-dashboard .main .upload-panel.opened {
         opacity: 1;
         pointer-events: all; }

@@ -112,16 +112,21 @@ $gap: 15px;
   opacity    : 0.99;
 }
 
+// fix
+.nano {
+  height: auto;
+}
+
 ///////////////
 
 
 .container {
-  @include -above(wide) { 
-    // width: calc(100% - 300px);
-    width: 100%;
-    min-width: $container-wide;
-    max-width: $container-xwide; 
-  }
+  // @include -above(wide) { 
+  //   // width: calc(100% - 300px);
+  //   width: 100%;
+  //   min-width: $container-wide;
+  //   max-width: $container-xwide; 
+  // }
 }
 
 html, body {
@@ -494,7 +499,8 @@ body.app .page-dashboard {
         box-shadow:0 0 10px black;
         @include transition(all 0.6s);
         .pbox {
-          padding-bottom:50%;
+          // padding-bottom:50%;
+          height: 520px;
           position: relative;
 
           a.close-panel {
@@ -521,6 +527,91 @@ body.app .page-dashboard {
             &:hover {
               background-color: #222;
               box-shadow:0 0 20px rgba(black, 1);
+            }
+          }
+
+          .uploading-images {
+            position: absolute;
+            top: 15px; bottom: 40px;
+            left: 0; width: calc(50% - 15px);
+            // background-color: #FFF;
+            overflow: hidden;
+            .w1 {
+              margin-right: 8px;
+            }
+
+            .image {
+              width: 25%; padding-bottom:25%;
+              position: relative;
+              float: left;
+              .ibox {
+                position: absolute;
+                top:0px;left:0px;right:15px;bottom:15px;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center center;
+                border:solid 4px white;
+                box-shadow: 3px 3px 3px rgba(0,0,0,0.1);
+              }
+              .percent {
+                position: absolute;
+                top:0px;left:0px;right:15px;bottom:15px;
+                pointer-events: none;
+                .bar {
+                  position: absolute;
+                  top:0;right:0;bottom:0;
+                  background-color: rgba(white, 0.618);
+                }
+                .txt, .done{
+                  position:absolute;
+                  left:0;right:0;
+                  top:50%;
+                  margin-top: -20px;
+                  text-align:center;
+                  height: 40px; line-height: 40px;
+                  font-size: 16px;
+                  color:white;text-shadow:1px 1px 3px black;
+                  font-weight: bold;
+                  font-family: Futura-Condensed;
+                  span.p {font-size:32px;}
+                  @include default-transition;
+                }
+                .done {
+                  font-size: 50px;
+                  opacity: 0;
+                  @include transform(scale(0.1));
+                }
+              }
+
+              &.done {
+                .percent .txt {
+                  opacity: 0;
+                  @include transform(scale(0.1));
+                }
+                .percent .done {
+                  opacity: 1;
+                  @include transform(scale(1));
+                }
+              }
+            }
+          }
+          .image-urls {
+            position: absolute;
+            top: 15px; bottom: 40px;
+            right: 0; width: calc(50% - 15px);
+            // background-color: #FFF;
+
+            textarea.urls {
+              position: absolute;
+              top:34px + 15px;left:0;right:0;bottom:0;
+              resize:none;
+              width: 100%;
+              box-sizing:border-box;
+              font-family: $font-family-monospace;
+              padding: 12px;
+              font-size: 16px;
+              background-color: #FFF;
+              cursor: default;
             }
           }
         }

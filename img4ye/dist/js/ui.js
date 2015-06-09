@@ -4,7 +4,7 @@
  */
 
 (function() {
-  var Image, ImageGrid, ImageSelector;
+  var Image, ImageGrid, ImageSelector, demo_progress;
 
   Image = (function() {
     function Image($el) {
@@ -174,7 +174,7 @@
       }
       this.layout.relayout(force);
       return setTimeout(function() {
-        return jQuery('.nano').nanoScroller({
+        return jQuery('.grid.nano').nanoScroller({
           alwaysVisible: true
         });
       });
@@ -363,13 +363,54 @@
   jQuery(document).on('click', 'a.btn-upload', function() {
     var $panel;
     $panel = jQuery('.upload-panel');
-    return $panel.addClass('opened');
+    $panel.addClass('opened');
+    jQuery('.uploading-images.nano').nanoScroller({
+      alwaysVisible: true
+    });
+    jQuery('.uploading-images .image').removeClass('done');
+    return setTimeout(function() {
+      return demo_progress();
+    }, 300);
   });
+
+  demo_progress = function() {
+    var $image;
+    $image = jQuery('.uploading-images .image:not(.done)').first();
+    if (!$image.length) {
+      return;
+    }
+    return $image.find('.bar').animate({
+      'width': '0%'
+    }, {
+      duration: 3000,
+      step: function(num) {
+        var percent;
+        percent = 100 - Math.ceil(num);
+        return $image.find('.txt .p').text(percent);
+      },
+      complete: function() {
+        var arr;
+        $image.addClass('done');
+        demo_progress();
+        arr = [];
+        jQuery('.uploading-images .image.done').each(function() {
+          return arr.push(jQuery(this).data('url'));
+        });
+        return jQuery('textarea.urls').val(arr.join("\n"));
+      }
+    });
+  };
 
   jQuery(document).on('click', 'a.close-panel', function() {
     var $panel;
     $panel = jQuery('.upload-panel');
-    return $panel.removeClass('opened');
+    $panel.removeClass('opened');
+    jQuery('.uploading-images .image').addClass('done');
+    jQuery('.uploading-images .image .bar').stop().css({
+      'width': '100%'
+    });
+    jQuery('.uploading-images .image .txt .p').text('0');
+    return jQuery('textarea.urls').val('');
   });
 
 }).call(this);
