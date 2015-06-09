@@ -582,6 +582,29 @@ body.app .page-dashboard {
                   @include transform(scale(0.1));
                 }
               }
+              .cancel {
+                position: absolute;
+                width:24px;height:24px;
+                line-height: 24px;
+                // border-radius: 100px;
+                background-color: rgba(black, 0.5);
+                color: white;
+                text-align: center;
+                font-size: 14px;
+                top:0px;
+                right:15px;
+                cursor:pointer;
+                @include default-transition;
+                i {
+                  position: absolute;
+                  top:0;left:0;right:0;bottom:0;
+                  width:24px;height:24px;
+                  line-height: 24px;
+                }
+                &:hover {
+                  background-color: black;
+                }
+              }
 
               &.done {
                 .percent .txt {
@@ -591,6 +614,10 @@ body.app .page-dashboard {
                 .percent .done {
                   opacity: 1;
                   @include transform(scale(1));
+                }
+                .cancel {
+                  opacity: 0;
+                  pointer-events:none;
                 }
               }
             }

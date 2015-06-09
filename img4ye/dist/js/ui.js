@@ -413,6 +413,16 @@
     return jQuery('textarea.urls').val('');
   });
 
+  jQuery(document).on('click', '.uploading-images .image .cancel', function() {
+    var $image;
+    $image = jQuery(this).closest('.image');
+    $image.hide(300, function() {
+      $image.remove();
+      return demo_progress();
+    });
+    return jQuery('.uploading-images .image .bar').stop();
+  });
+
 }).call(this);
 
 //# sourceMappingURL=../maps/ui.js.map

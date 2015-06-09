@@ -313,3 +313,10 @@ jQuery(document).on 'click', 'a.close-panel', ->
       'width': '100%'
   jQuery('.uploading-images .image .txt .p').text('0')
   jQuery('textarea.urls').val ''
+
+jQuery(document).on 'click', '.uploading-images .image .cancel', ->
+  $image = jQuery(this).closest('.image')
+  $image.hide 300, ->
+    $image.remove()
+    demo_progress()
+  jQuery('.uploading-images .image .bar').stop()

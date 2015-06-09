@@ -5506,6 +5506,34 @@ body.app .page-dashboard {
                   -ms-transform: scale(0.1);
                   -o-transform: scale(0.1);
                   transform: scale(0.1); }
+              body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images .image .cancel {
+                position: absolute;
+                width: 24px;
+                height: 24px;
+                line-height: 24px;
+                background-color: rgba(0, 0, 0, 0.5);
+                color: white;
+                text-align: center;
+                font-size: 14px;
+                top: 0px;
+                right: 15px;
+                cursor: pointer;
+                -webkit-transition: all ease 0.3s;
+                -moz-transition: all ease 0.3s;
+                -ms-transition: all ease 0.3s;
+                -o-transition: all ease 0.3s;
+                transition: all ease 0.3s; }
+                body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images .image .cancel i {
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  right: 0;
+                  bottom: 0;
+                  width: 24px;
+                  height: 24px;
+                  line-height: 24px; }
+                body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images .image .cancel:hover {
+                  background-color: black; }
               body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images .image.done .percent .txt {
                 opacity: 0;
                 -webkit-transform: scale(0.1);
@@ -5520,6 +5548,9 @@ body.app .page-dashboard {
                 -ms-transform: scale(1);
                 -o-transform: scale(1);
                 transform: scale(1); }
+              body.app .page-dashboard .main .upload-panel .panel .pbox .uploading-images .image.done .cancel {
+                opacity: 0;
+                pointer-events: none; }
           body.app .page-dashboard .main .upload-panel .panel .pbox .image-urls {
             position: absolute;
             top: 15px;
